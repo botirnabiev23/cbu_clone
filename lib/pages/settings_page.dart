@@ -1,8 +1,8 @@
+import 'package:cbu/l10n/app_localization.dart';
 import 'package:cbu/providers/lang_provider.dart';
 import 'package:cbu/providers/theme_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:flutter_gen/gen_l10n/app_localization.dart';
 
 class SettingPage extends StatefulWidget {
   const SettingPage({super.key});

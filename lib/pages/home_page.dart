@@ -1,3 +1,4 @@
+import 'package:cbu/l10n/app_localization.dart';
 import 'package:cbu/pages/currency_page.dart';
 import 'package:cbu/pages/maps_page.dart';
 import 'package:cbu/pages/news_page.dart';
@@ -6,7 +7,6 @@ import 'package:cbu/pages/settings_page.dart';
 import 'package:cbu/providers/theme_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:flutter_gen/gen_l10n/app_localization.dart';
 
 class HomePageCB extends StatefulWidget {
   const HomePageCB({super.key});
