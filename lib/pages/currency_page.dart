@@ -1,6 +1,8 @@
+import 'package:cbu/bloc/currency_bloc.dart';
 import 'package:cbu/models/models.dart';
 import 'package:cbu/request/request.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class CurrencyPage extends StatefulWidget {
   const CurrencyPage({super.key});
@@ -10,50 +12,42 @@ class CurrencyPage extends StatefulWidget {
 }
 
 class _CurrencyPageState extends State<CurrencyPage> {
+  late Future<List<dynamic>> futureRequest;
+
+  Future<void> refreshItems() async {
+    final newData = await CBRequest().getRequest();
+
+    setState(() {
+      futureRequest = Future.value(newData);
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
-    // ignore: unused_local_variable
-    late Future<List<dynamic>> futureRequest;
-
-    @override
-    // ignore: unused_element
-    void initState() {
-      super.initState();
-      futureRequest = CBRequest().getRequest();
-    }
-
-    Future<void> refreshItems() async {
-      final newData = await CBRequest().getRequest();
-
-      setState(() {
-        futureRequest = Future.value(newData);
-      });
-    }
-
-    return FutureBuilder(
-      future: CBRequest().getRequest(),
-      builder: (context, snapshot) {
-        if (snapshot.connectionState == ConnectionState.waiting) {
+    return BlocBuilder<CurrencyBloc, CurrencyState>(
+      builder: (context, state) {
+        if (state is CurrencyError) {
+          return Center(child: Text(state.errorMessage));
+        }
+        if(state is CurrencyLoading) {
           return const Center(child: CircularProgressIndicator());
         }
-        if (snapshot.hasError) {
-          return Center(
-            child: Text('Error: ${snapshot.error}'),
-          );
-        }
-        if (snapshot.hasData) {
-          final request = snapshot.data!;
+        if (state is CurrencyLoaded) {
           return RefreshIndicator(
-            onRefresh: refreshItems,
+            onRefresh: () async {
+              context.read<CurrencyBloc>().add(CurrencyFetchRequested());
+              return;
+            },
             child: ListView.builder(
-              itemCount: request.length,
+              itemCount: state.currencyList.length,
               itemBuilder: (context, index) {
-                return CurrencyPageCBWidget(model: request[index]);
+                return CurrencyPageCBWidget(model: state.currencyList[index]);
               },
             ),
           );
         }
-        return const Center(child: Text('No data available'));
+
+        return const Center(child: Text('Нет избранных новостей'));
       },
     );
   }
@@ -61,6 +55,7 @@ class _CurrencyPageState extends State<CurrencyPage> {
 
 class CurrencyPageCBWidget extends StatelessWidget {
   final CBModel model;
+
   const CurrencyPageCBWidget({super.key, required this.model});
 
   @override
@@ -107,13 +102,6 @@ class CurrencyPageCBWidget extends StatelessWidget {
         ),
       ),
       child: ListTile(
-        // shape: const RoundedRectangleBorder(
-        //   side: BorderSide(
-        //     strokeAlign: 1,
-        //     color: Colors.grey,
-        //     width: 0.5,
-        //   ),
-        // ),
         title: Text(
           '${model.nominal.toString()} ${model.ccy} = ${model.rate}',
           style: const TextStyle(fontSize: 18),
