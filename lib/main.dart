@@ -1,28 +1,26 @@
 import 'package:cbu/core/l10n/l10n.dart';
 import 'package:cbu/features/exchange/presentation/bloc/currency_bloc.dart';
 import 'package:cbu/core/l10n/app_localization.dart';
-import 'package:cbu/core/locale/locale_theme.dart';
 import 'package:cbu/features/splash/splash_screen.dart';
-import 'package:cbu/core/providers/lang_provider.dart';
-import 'package:cbu/core/providers/theme_provider.dart';
+import 'package:cbu/features/settings/bloc/settings_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:provider/provider.dart';
 import 'package:cbu/core/di/injection.dart';
 
 void main() async {
-  await configureDependencies();
   WidgetsFlutterBinding.ensureInitialized();
-  await SharedPreferencesHelper.init();
+  await configureDependencies();
+
   runApp(
-    MultiProvider(
+    MultiBlocProvider(
       providers: [
-        ChangeNotifierProvider(create: (_) => ThemeProvider()),
-        ChangeNotifierProvider(create: (_) => LocaleProvider()),
+        BlocProvider(
+          create: (_) => SettingsBloc()..add(const SettingsEvent.appStarted()),
+        ),
         BlocProvider(
           create: (_) =>
-              CurrencyBloc(sl())..add(CurrencyEvent.fetchRequested()),
+              CurrencyBloc(sl())..add(const CurrencyEvent.fetchRequested()),
         ),
       ],
       child: const CBUApp(),
@@ -30,33 +28,29 @@ void main() async {
   );
 }
 
-class CBUApp extends StatefulWidget {
+class CBUApp extends StatelessWidget {
   const CBUApp({super.key});
 
   @override
-  State<CBUApp> createState() => _CBUAppState();
-}
-
-class _CBUAppState extends State<CBUApp> {
-  @override
   Widget build(BuildContext context) {
-    final themeProvider = Provider.of<ThemeProvider>(context);
-    final localeProvider = Provider.of<LocaleProvider>(context);
-
-    return MaterialApp(
-      themeMode: themeProvider.themeMode,
-      theme: ThemeData.light(),
-      darkTheme: ThemeData.dark(),
-      home: const SplashScreen(),
-      debugShowCheckedModeBanner: false,
-      supportedLocales: L10n.all,
-      locale: localeProvider.locale,
-      localizationsDelegates: const [
-        GlobalMaterialLocalizations.delegate,
-        GlobalWidgetsLocalizations.delegate,
-        GlobalCupertinoLocalizations.delegate,
-        AppLocalizations.delegate
-      ],
+    return BlocBuilder<SettingsBloc, SettingsState>(
+      builder: (context, state) {
+        return MaterialApp(
+          themeMode: state.themeMode,
+          theme: ThemeData.light(),
+          darkTheme: ThemeData.dark(),
+          home: const SplashScreen(),
+          debugShowCheckedModeBanner: false,
+          supportedLocales: L10n.all,
+          locale: state.locale,
+          localizationsDelegates: const [
+            GlobalMaterialLocalizations.delegate,
+            GlobalWidgetsLocalizations.delegate,
+            GlobalCupertinoLocalizations.delegate,
+            AppLocalizations.delegate
+          ],
+        );
+      },
     );
   }
 }

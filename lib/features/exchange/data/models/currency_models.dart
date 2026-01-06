@@ -56,7 +56,7 @@ class CurrencyModel {
 
   Map<String, dynamic> toJson() => _$CurrencyModelToJson(this);
 
-  Currency toEntity() => Currency(
+  CurrencyEntity toEntity() => CurrencyEntity(
         id: id,
         code: code,
         ccy: ccy,

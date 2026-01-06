@@ -13,7 +13,7 @@ part of 'currency_entity.dart';
 T _$identity<T>(T value) => value;
 
 /// @nodoc
-mixin _$Currency {
+mixin _$CurrencyEntity {
   int? get id;
   String? get code;
   String? get ccy;
@@ -26,18 +26,19 @@ mixin _$Currency {
   String? get diff;
   String? get date;
 
-  /// Create a copy of Currency
+  /// Create a copy of CurrencyEntity
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
   @pragma('vm:prefer-inline')
-  $CurrencyCopyWith<Currency> get copyWith =>
-      _$CurrencyCopyWithImpl<Currency>(this as Currency, _$identity);
+  $CurrencyEntityCopyWith<CurrencyEntity> get copyWith =>
+      _$CurrencyEntityCopyWithImpl<CurrencyEntity>(
+          this as CurrencyEntity, _$identity);
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is Currency &&
+            other is CurrencyEntity &&
             (identical(other.id, id) || other.id == id) &&
             (identical(other.code, code) || other.code == code) &&
             (identical(other.ccy, ccy) || other.ccy == ccy) &&
@@ -58,14 +59,15 @@ mixin _$Currency {
 
   @override
   String toString() {
-    return 'Currency(id: $id, code: $code, ccy: $ccy, ccyNmRU: $ccyNmRU, ccyNmUZ: $ccyNmUZ, ccyNmUZC: $ccyNmUZC, ccyNmEN: $ccyNmEN, nominal: $nominal, rate: $rate, diff: $diff, date: $date)';
+    return 'CurrencyEntity(id: $id, code: $code, ccy: $ccy, ccyNmRU: $ccyNmRU, ccyNmUZ: $ccyNmUZ, ccyNmUZC: $ccyNmUZC, ccyNmEN: $ccyNmEN, nominal: $nominal, rate: $rate, diff: $diff, date: $date)';
   }
 }
 
 /// @nodoc
-abstract mixin class $CurrencyCopyWith<$Res> {
-  factory $CurrencyCopyWith(Currency value, $Res Function(Currency) _then) =
-      _$CurrencyCopyWithImpl;
+abstract mixin class $CurrencyEntityCopyWith<$Res> {
+  factory $CurrencyEntityCopyWith(
+          CurrencyEntity value, $Res Function(CurrencyEntity) _then) =
+      _$CurrencyEntityCopyWithImpl;
   @useResult
   $Res call(
       {int? id,
@@ -82,13 +84,14 @@ abstract mixin class $CurrencyCopyWith<$Res> {
 }
 
 /// @nodoc
-class _$CurrencyCopyWithImpl<$Res> implements $CurrencyCopyWith<$Res> {
-  _$CurrencyCopyWithImpl(this._self, this._then);
+class _$CurrencyEntityCopyWithImpl<$Res>
+    implements $CurrencyEntityCopyWith<$Res> {
+  _$CurrencyEntityCopyWithImpl(this._self, this._then);
 
-  final Currency _self;
-  final $Res Function(Currency) _then;
+  final CurrencyEntity _self;
+  final $Res Function(CurrencyEntity) _then;
 
-  /// Create a copy of Currency
+  /// Create a copy of CurrencyEntity
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
@@ -154,8 +157,8 @@ class _$CurrencyCopyWithImpl<$Res> implements $CurrencyCopyWith<$Res> {
   }
 }
 
-/// Adds pattern-matching-related methods to [Currency].
-extension CurrencyPatterns on Currency {
+/// Adds pattern-matching-related methods to [CurrencyEntity].
+extension CurrencyEntityPatterns on CurrencyEntity {
   /// A variant of `map` that fallback to returning `orElse`.
   ///
   /// It is equivalent to doing:
@@ -170,12 +173,12 @@ extension CurrencyPatterns on Currency {
 
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>(
-    TResult Function(_Currency value)? $default, {
+    TResult Function(_CurrencyEntity value)? $default, {
     required TResult orElse(),
   }) {
     final _that = this;
     switch (_that) {
-      case _Currency() when $default != null:
+      case _CurrencyEntity() when $default != null:
         return $default(_that);
       case _:
         return orElse();
@@ -197,11 +200,11 @@ extension CurrencyPatterns on Currency {
 
   @optionalTypeArgs
   TResult map<TResult extends Object?>(
-    TResult Function(_Currency value) $default,
+    TResult Function(_CurrencyEntity value) $default,
   ) {
     final _that = this;
     switch (_that) {
-      case _Currency():
+      case _CurrencyEntity():
         return $default(_that);
       case _:
         throw StateError('Unexpected subclass');
@@ -222,11 +225,11 @@ extension CurrencyPatterns on Currency {
 
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>(
-    TResult? Function(_Currency value)? $default,
+    TResult? Function(_CurrencyEntity value)? $default,
   ) {
     final _that = this;
     switch (_that) {
-      case _Currency() when $default != null:
+      case _CurrencyEntity() when $default != null:
         return $default(_that);
       case _:
         return null;
@@ -264,7 +267,7 @@ extension CurrencyPatterns on Currency {
   }) {
     final _that = this;
     switch (_that) {
-      case _Currency() when $default != null:
+      case _CurrencyEntity() when $default != null:
         return $default(
             _that.id,
             _that.code,
@@ -313,7 +316,7 @@ extension CurrencyPatterns on Currency {
   ) {
     final _that = this;
     switch (_that) {
-      case _Currency():
+      case _CurrencyEntity():
         return $default(
             _that.id,
             _that.code,
@@ -361,7 +364,7 @@ extension CurrencyPatterns on Currency {
   ) {
     final _that = this;
     switch (_that) {
-      case _Currency() when $default != null:
+      case _CurrencyEntity() when $default != null:
         return $default(
             _that.id,
             _that.code,
@@ -382,8 +385,8 @@ extension CurrencyPatterns on Currency {
 
 /// @nodoc
 
-class _Currency implements Currency {
-  const _Currency(
+class _CurrencyEntity implements CurrencyEntity {
+  const _CurrencyEntity(
       {this.id,
       this.code,
       this.ccy,
@@ -419,19 +422,19 @@ class _Currency implements Currency {
   @override
   final String? date;
 
-  /// Create a copy of Currency
+  /// Create a copy of CurrencyEntity
   /// with the given fields replaced by the non-null parameter values.
   @override
   @JsonKey(includeFromJson: false, includeToJson: false)
   @pragma('vm:prefer-inline')
-  _$CurrencyCopyWith<_Currency> get copyWith =>
-      __$CurrencyCopyWithImpl<_Currency>(this, _$identity);
+  _$CurrencyEntityCopyWith<_CurrencyEntity> get copyWith =>
+      __$CurrencyEntityCopyWithImpl<_CurrencyEntity>(this, _$identity);
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _Currency &&
+            other is _CurrencyEntity &&
             (identical(other.id, id) || other.id == id) &&
             (identical(other.code, code) || other.code == code) &&
             (identical(other.ccy, ccy) || other.ccy == ccy) &&
@@ -452,15 +455,16 @@ class _Currency implements Currency {
 
   @override
   String toString() {
-    return 'Currency(id: $id, code: $code, ccy: $ccy, ccyNmRU: $ccyNmRU, ccyNmUZ: $ccyNmUZ, ccyNmUZC: $ccyNmUZC, ccyNmEN: $ccyNmEN, nominal: $nominal, rate: $rate, diff: $diff, date: $date)';
+    return 'CurrencyEntity(id: $id, code: $code, ccy: $ccy, ccyNmRU: $ccyNmRU, ccyNmUZ: $ccyNmUZ, ccyNmUZC: $ccyNmUZC, ccyNmEN: $ccyNmEN, nominal: $nominal, rate: $rate, diff: $diff, date: $date)';
   }
 }
 
 /// @nodoc
-abstract mixin class _$CurrencyCopyWith<$Res>
-    implements $CurrencyCopyWith<$Res> {
-  factory _$CurrencyCopyWith(_Currency value, $Res Function(_Currency) _then) =
-      __$CurrencyCopyWithImpl;
+abstract mixin class _$CurrencyEntityCopyWith<$Res>
+    implements $CurrencyEntityCopyWith<$Res> {
+  factory _$CurrencyEntityCopyWith(
+          _CurrencyEntity value, $Res Function(_CurrencyEntity) _then) =
+      __$CurrencyEntityCopyWithImpl;
   @override
   @useResult
   $Res call(
@@ -478,13 +482,14 @@ abstract mixin class _$CurrencyCopyWith<$Res>
 }
 
 /// @nodoc
-class __$CurrencyCopyWithImpl<$Res> implements _$CurrencyCopyWith<$Res> {
-  __$CurrencyCopyWithImpl(this._self, this._then);
+class __$CurrencyEntityCopyWithImpl<$Res>
+    implements _$CurrencyEntityCopyWith<$Res> {
+  __$CurrencyEntityCopyWithImpl(this._self, this._then);
 
-  final _Currency _self;
-  final $Res Function(_Currency) _then;
+  final _CurrencyEntity _self;
+  final $Res Function(_CurrencyEntity) _then;
 
-  /// Create a copy of Currency
+  /// Create a copy of CurrencyEntity
   /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
@@ -501,7 +506,7 @@ class __$CurrencyCopyWithImpl<$Res> implements _$CurrencyCopyWith<$Res> {
     Object? diff = freezed,
     Object? date = freezed,
   }) {
-    return _then(_Currency(
+    return _then(_CurrencyEntity(
       id: freezed == id
           ? _self.id
           : id // ignore: cast_nullable_to_non_nullable

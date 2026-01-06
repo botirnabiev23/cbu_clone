@@ -3,5 +3,5 @@ import 'package:cbu/features/exchange/domain/entities/currency_entity.dart';
 import 'package:dartz/dartz.dart';
 
 abstract interface class CurrencyRepository {
-  Future<Either<Failure, List<Currency>>> fetchCurrencies();
+  Future<Either<Failure, List<CurrencyEntity>>> fetchCurrencies();
 }

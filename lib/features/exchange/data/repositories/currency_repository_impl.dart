@@ -10,7 +10,7 @@ class CurrencyRepositoryImpl implements CurrencyRepository {
   final RemoteDataSource remoteDataSource;
   CurrencyRepositoryImpl(this.remoteDataSource);
   @override
-  Future<Either<Failure, List<Currency>>> fetchCurrencies() async {
+  Future<Either<Failure, List<CurrencyEntity>>> fetchCurrencies() async {
     try {
       final result = await remoteDataSource.getRequest();
       return Right(result);

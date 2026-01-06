@@ -5,7 +5,7 @@ import 'package:dio/dio.dart';
 import 'package:injectable/injectable.dart';
 
 abstract interface class RemoteDataSource {
-  Future<List<Currency>> getRequest();
+  Future<List<CurrencyEntity>> getRequest();
   Future<List<Quote>> getQuotes();
 }
 
@@ -14,7 +14,7 @@ class CurrencyRemoteDataSourceImpl implements RemoteDataSource {
   final Dio dio;
   CurrencyRemoteDataSourceImpl(this.dio);
   @override
-  Future<List<Currency>> getRequest() async {
+  Future<List<CurrencyEntity>> getRequest() async {
     final response =
         await dio.get('https://cbu.uz/uzc/arkhiv-kursov-valyut/json/');
     final List<dynamic> json = response.data;
