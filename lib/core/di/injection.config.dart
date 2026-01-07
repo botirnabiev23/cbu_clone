@@ -20,6 +20,24 @@ import 'package:cbu/features/exchange/domain/use_cases/get_currency_use_case.dar
     as _i836;
 import 'package:cbu/features/exchange/presentation/bloc/currency_bloc.dart'
     as _i884;
+import 'package:cbu/features/exchange/presentation/cubit/currency_search_cubit.dart'
+    as _i242;
+import 'package:cbu/features/settings/data/data_sources/settings_local_data_source.dart'
+    as _i235;
+import 'package:cbu/features/settings/data/repositories/settings_repository_impl.dart'
+    as _i756;
+import 'package:cbu/features/settings/domain/repositories/settings_repository.dart'
+    as _i151;
+import 'package:cbu/features/settings/domain/use_cases/get_locale_use_case.dart'
+    as _i845;
+import 'package:cbu/features/settings/domain/use_cases/get_theme_mode_use_case.dart'
+    as _i195;
+import 'package:cbu/features/settings/domain/use_cases/set_locale_use_case.dart'
+    as _i421;
+import 'package:cbu/features/settings/domain/use_cases/set_theme_mode_use_case.dart'
+    as _i114;
+import 'package:cbu/features/settings/presentation/bloc/settings_bloc.dart'
+    as _i622;
 import 'package:dio/dio.dart' as _i361;
 import 'package:get_it/get_it.dart' as _i174;
 import 'package:injectable/injectable.dart' as _i526;
@@ -41,15 +59,34 @@ extension GetItInjectableX on _i174.GetIt {
       () => injectionModule.prefs,
       preResolve: true,
     );
+    gh.factory<_i242.CurrencySearchCubit>(() => _i242.CurrencySearchCubit());
     gh.lazySingleton<_i361.Dio>(() => injectionModule.dio);
     gh.lazySingleton<_i513.RemoteDataSource>(
         () => _i513.CurrencyRemoteDataSourceImpl(gh<_i361.Dio>()));
+    gh.lazySingleton<_i235.SettingsLocalDataSource>(
+        () => _i235.SettingsLocalDataSourceImpl(gh<_i460.SharedPreferences>()));
     gh.lazySingleton<_i381.CurrencyRepository>(
         () => _i1037.CurrencyRepositoryImpl(gh<_i513.RemoteDataSource>()));
-    gh.lazySingleton<_i836.GetCurrency>(
-        () => _i836.GetCurrency(gh<_i381.CurrencyRepository>()));
+    gh.lazySingleton<_i151.SettingsRepository>(() =>
+        _i756.SettingsRepositoryImpl(gh<_i235.SettingsLocalDataSource>()));
+    gh.factory<_i845.GetLocaleUseCase>(
+        () => _i845.GetLocaleUseCase(gh<_i151.SettingsRepository>()));
+    gh.factory<_i195.GetThemeModeUseCase>(
+        () => _i195.GetThemeModeUseCase(gh<_i151.SettingsRepository>()));
+    gh.factory<_i421.SetLocaleUseCase>(
+        () => _i421.SetLocaleUseCase(gh<_i151.SettingsRepository>()));
+    gh.factory<_i114.SetThemeModeUseCase>(
+        () => _i114.SetThemeModeUseCase(gh<_i151.SettingsRepository>()));
+    gh.factory<_i622.SettingsBloc>(() => _i622.SettingsBloc(
+          setThemeModeUseCase: gh<_i114.SetThemeModeUseCase>(),
+          getLocaleUseCase: gh<_i845.GetLocaleUseCase>(),
+          setLocaleUseCase: gh<_i421.SetLocaleUseCase>(),
+          getThemeModeUseCase: gh<_i195.GetThemeModeUseCase>(),
+        ));
+    gh.lazySingleton<_i836.GetCurrencyUseCase>(
+        () => _i836.GetCurrencyUseCase(gh<_i381.CurrencyRepository>()));
     gh.factory<_i884.CurrencyBloc>(
-        () => _i884.CurrencyBloc(gh<_i836.GetCurrency>()));
+        () => _i884.CurrencyBloc(gh<_i836.GetCurrencyUseCase>()));
     return this;
   }
 }

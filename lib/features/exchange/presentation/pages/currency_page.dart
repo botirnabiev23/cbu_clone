@@ -17,39 +17,33 @@ class CurrencyPage extends StatelessWidget {
 
         return BlocBuilder<CurrencySearchCubit, CurrencySearchState>(
           builder: (context, searchState) {
-            return searchState.maybeWhen(
-              success: (currencies) {
-                if (currencies.isEmpty) {
-                  return const Center(child: Text('No data available'));
-                }
-                return RefreshIndicator(
-                  onRefresh: () async {
-                    context
-                        .read<CurrencyBloc>()
-                        .add(const CurrencyEvent.fetchRequested());
-                  },
-                  child: ListView.builder(
-                    itemCount: currencies.length,
-                    itemBuilder: (context, index) {
-                      return CurrencyPageCBWidget(model: currencies[index]);
-                    },
-                  ),
-                );
+            final currencies = searchState.filteredCurrencies;
+
+            if (currencies.isEmpty) {
+              if (currencyState.isLoading) {
+                return const Center(child: CircularProgressIndicator());
+              }
+
+              final error = currencyState.failure;
+              if (error != null && currencyState.currencyList.isEmpty) {
+                return Center(child: Text(error.toString()));
+              }
+
+              return const Center(child: Text('No data available'));
+            }
+
+            return RefreshIndicator(
+              onRefresh: () async {
+                context
+                    .read<CurrencyBloc>()
+                    .add(const CurrencyEvent.fetchRequested());
               },
-              orElse: () {
-                if (currencyState.currencyList.isNotEmpty) {
-                  return ListView.builder(
-                    itemCount: currencyState.currencyList.length,
-                    itemBuilder: (context, index) {
-                      return CurrencyPageCBWidget(
-                        model: currencyState.currencyList[index],
-                      );
-                    },
-                  );
-                }
-                final error = currencyState.errorMessage;
-                return Center(child: Text(error ?? 'Error'));
-              },
+              child: ListView.builder(
+                itemCount: currencies.length,
+                itemBuilder: (context, index) {
+                  return CurrencyPageCBWidget(currency: currencies[index]);
+                },
+              ),
             );
           },
         );

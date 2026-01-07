@@ -6,9 +6,9 @@ import 'package:dartz/dartz.dart';
 import 'package:injectable/injectable.dart';
 
 @lazySingleton
-class GetCurrency extends UseCase<List<CurrencyEntity>, NoParams> {
+class GetCurrencyUseCase extends UseCase<List<CurrencyEntity>, NoParams> {
   final CurrencyRepository repository;
-  GetCurrency(this.repository);
+  GetCurrencyUseCase(this.repository);
 
   @override
   Future<Either<Failure, List<CurrencyEntity>>> call(NoParams _) async {

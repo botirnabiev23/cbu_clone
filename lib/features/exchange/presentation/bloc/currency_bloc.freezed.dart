@@ -50,14 +50,14 @@ extension CurrencyEventPatterns on CurrencyEvent {
 
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
-    TResult Function(_Load value)? loadList,
+    TResult Function(_LoadCurrencies value)? loadCurrencies,
     TResult Function(_FetchRequested value)? fetchRequested,
     required TResult orElse(),
   }) {
     final _that = this;
     switch (_that) {
-      case _Load() when loadList != null:
-        return loadList(_that);
+      case _LoadCurrencies() when loadCurrencies != null:
+        return loadCurrencies(_that);
       case _FetchRequested() when fetchRequested != null:
         return fetchRequested(_that);
       case _:
@@ -80,13 +80,13 @@ extension CurrencyEventPatterns on CurrencyEvent {
 
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
-    required TResult Function(_Load value) loadList,
+    required TResult Function(_LoadCurrencies value) loadCurrencies,
     required TResult Function(_FetchRequested value) fetchRequested,
   }) {
     final _that = this;
     switch (_that) {
-      case _Load():
-        return loadList(_that);
+      case _LoadCurrencies():
+        return loadCurrencies(_that);
       case _FetchRequested():
         return fetchRequested(_that);
     }
@@ -106,13 +106,13 @@ extension CurrencyEventPatterns on CurrencyEvent {
 
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(_Load value)? loadList,
+    TResult? Function(_LoadCurrencies value)? loadCurrencies,
     TResult? Function(_FetchRequested value)? fetchRequested,
   }) {
     final _that = this;
     switch (_that) {
-      case _Load() when loadList != null:
-        return loadList(_that);
+      case _LoadCurrencies() when loadCurrencies != null:
+        return loadCurrencies(_that);
       case _FetchRequested() when fetchRequested != null:
         return fetchRequested(_that);
       case _:
@@ -134,14 +134,14 @@ extension CurrencyEventPatterns on CurrencyEvent {
 
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(List<CurrencyModel> currencyList)? loadList,
+    TResult Function(List<CurrencyModel> currencyList)? loadCurrencies,
     TResult Function()? fetchRequested,
     required TResult orElse(),
   }) {
     final _that = this;
     switch (_that) {
-      case _Load() when loadList != null:
-        return loadList(_that.currencyList);
+      case _LoadCurrencies() when loadCurrencies != null:
+        return loadCurrencies(_that.currencyList);
       case _FetchRequested() when fetchRequested != null:
         return fetchRequested();
       case _:
@@ -164,13 +164,13 @@ extension CurrencyEventPatterns on CurrencyEvent {
 
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(List<CurrencyModel> currencyList) loadList,
+    required TResult Function(List<CurrencyModel> currencyList) loadCurrencies,
     required TResult Function() fetchRequested,
   }) {
     final _that = this;
     switch (_that) {
-      case _Load():
-        return loadList(_that.currencyList);
+      case _LoadCurrencies():
+        return loadCurrencies(_that.currencyList);
       case _FetchRequested():
         return fetchRequested();
     }
@@ -190,13 +190,13 @@ extension CurrencyEventPatterns on CurrencyEvent {
 
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(List<CurrencyModel> currencyList)? loadList,
+    TResult? Function(List<CurrencyModel> currencyList)? loadCurrencies,
     TResult? Function()? fetchRequested,
   }) {
     final _that = this;
     switch (_that) {
-      case _Load() when loadList != null:
-        return loadList(_that.currencyList);
+      case _LoadCurrencies() when loadCurrencies != null:
+        return loadCurrencies(_that.currencyList);
       case _FetchRequested() when fetchRequested != null:
         return fetchRequested();
       case _:
@@ -207,8 +207,8 @@ extension CurrencyEventPatterns on CurrencyEvent {
 
 /// @nodoc
 
-class _Load implements CurrencyEvent {
-  const _Load({required final List<CurrencyModel> currencyList})
+class _LoadCurrencies implements CurrencyEvent {
+  const _LoadCurrencies({required final List<CurrencyModel> currencyList})
       : _currencyList = currencyList;
 
   final List<CurrencyModel> _currencyList;
@@ -222,14 +222,14 @@ class _Load implements CurrencyEvent {
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
   @pragma('vm:prefer-inline')
-  _$LoadCopyWith<_Load> get copyWith =>
-      __$LoadCopyWithImpl<_Load>(this, _$identity);
+  _$LoadCurrenciesCopyWith<_LoadCurrencies> get copyWith =>
+      __$LoadCurrenciesCopyWithImpl<_LoadCurrencies>(this, _$identity);
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _Load &&
+            other is _LoadCurrencies &&
             const DeepCollectionEquality()
                 .equals(other._currencyList, _currencyList));
   }
@@ -240,25 +240,27 @@ class _Load implements CurrencyEvent {
 
   @override
   String toString() {
-    return 'CurrencyEvent.loadList(currencyList: $currencyList)';
+    return 'CurrencyEvent.loadCurrencies(currencyList: $currencyList)';
   }
 }
 
 /// @nodoc
-abstract mixin class _$LoadCopyWith<$Res>
+abstract mixin class _$LoadCurrenciesCopyWith<$Res>
     implements $CurrencyEventCopyWith<$Res> {
-  factory _$LoadCopyWith(_Load value, $Res Function(_Load) _then) =
-      __$LoadCopyWithImpl;
+  factory _$LoadCurrenciesCopyWith(
+          _LoadCurrencies value, $Res Function(_LoadCurrencies) _then) =
+      __$LoadCurrenciesCopyWithImpl;
   @useResult
   $Res call({List<CurrencyModel> currencyList});
 }
 
 /// @nodoc
-class __$LoadCopyWithImpl<$Res> implements _$LoadCopyWith<$Res> {
-  __$LoadCopyWithImpl(this._self, this._then);
+class __$LoadCurrenciesCopyWithImpl<$Res>
+    implements _$LoadCurrenciesCopyWith<$Res> {
+  __$LoadCurrenciesCopyWithImpl(this._self, this._then);
 
-  final _Load _self;
-  final $Res Function(_Load) _then;
+  final _LoadCurrencies _self;
+  final $Res Function(_LoadCurrencies) _then;
 
   /// Create a copy of CurrencyEvent
   /// with the given fields replaced by the non-null parameter values.
@@ -266,7 +268,7 @@ class __$LoadCopyWithImpl<$Res> implements _$LoadCopyWith<$Res> {
   $Res call({
     Object? currencyList = null,
   }) {
-    return _then(_Load(
+    return _then(_LoadCurrencies(
       currencyList: null == currencyList
           ? _self._currencyList
           : currencyList // ignore: cast_nullable_to_non_nullable
@@ -299,7 +301,7 @@ class _FetchRequested implements CurrencyEvent {
 mixin _$CurrencyState {
   bool get isLoading;
   List<CurrencyEntity> get currencyList;
-  String? get errorMessage;
+  Failure? get failure;
 
   /// Create a copy of CurrencyState
   /// with the given fields replaced by the non-null parameter values.
@@ -318,17 +320,16 @@ mixin _$CurrencyState {
                 other.isLoading == isLoading) &&
             const DeepCollectionEquality()
                 .equals(other.currencyList, currencyList) &&
-            (identical(other.errorMessage, errorMessage) ||
-                other.errorMessage == errorMessage));
+            (identical(other.failure, failure) || other.failure == failure));
   }
 
   @override
   int get hashCode => Object.hash(runtimeType, isLoading,
-      const DeepCollectionEquality().hash(currencyList), errorMessage);
+      const DeepCollectionEquality().hash(currencyList), failure);
 
   @override
   String toString() {
-    return 'CurrencyState(isLoading: $isLoading, currencyList: $currencyList, errorMessage: $errorMessage)';
+    return 'CurrencyState(isLoading: $isLoading, currencyList: $currencyList, failure: $failure)';
   }
 }
 
@@ -339,9 +340,7 @@ abstract mixin class $CurrencyStateCopyWith<$Res> {
       _$CurrencyStateCopyWithImpl;
   @useResult
   $Res call(
-      {bool isLoading,
-      List<CurrencyEntity> currencyList,
-      String? errorMessage});
+      {bool isLoading, List<CurrencyEntity> currencyList, Failure? failure});
 }
 
 /// @nodoc
@@ -359,7 +358,7 @@ class _$CurrencyStateCopyWithImpl<$Res>
   $Res call({
     Object? isLoading = null,
     Object? currencyList = null,
-    Object? errorMessage = freezed,
+    Object? failure = freezed,
   }) {
     return _then(_self.copyWith(
       isLoading: null == isLoading
@@ -370,10 +369,10 @@ class _$CurrencyStateCopyWithImpl<$Res>
           ? _self.currencyList
           : currencyList // ignore: cast_nullable_to_non_nullable
               as List<CurrencyEntity>,
-      errorMessage: freezed == errorMessage
-          ? _self.errorMessage
-          : errorMessage // ignore: cast_nullable_to_non_nullable
-              as String?,
+      failure: freezed == failure
+          ? _self.failure
+          : failure // ignore: cast_nullable_to_non_nullable
+              as Failure?,
     ));
   }
 }
@@ -472,15 +471,14 @@ extension CurrencyStatePatterns on CurrencyState {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>(
     TResult Function(bool isLoading, List<CurrencyEntity> currencyList,
-            String? errorMessage)?
+            Failure? failure)?
         $default, {
     required TResult orElse(),
   }) {
     final _that = this;
     switch (_that) {
       case _CurrencyState() when $default != null:
-        return $default(
-            _that.isLoading, _that.currencyList, _that.errorMessage);
+        return $default(_that.isLoading, _that.currencyList, _that.failure);
       case _:
         return orElse();
     }
@@ -501,15 +499,14 @@ extension CurrencyStatePatterns on CurrencyState {
 
   @optionalTypeArgs
   TResult when<TResult extends Object?>(
-    TResult Function(bool isLoading, List<CurrencyEntity> currencyList,
-            String? errorMessage)
+    TResult Function(
+            bool isLoading, List<CurrencyEntity> currencyList, Failure? failure)
         $default,
   ) {
     final _that = this;
     switch (_that) {
       case _CurrencyState():
-        return $default(
-            _that.isLoading, _that.currencyList, _that.errorMessage);
+        return $default(_that.isLoading, _that.currencyList, _that.failure);
       case _:
         throw StateError('Unexpected subclass');
     }
@@ -530,14 +527,13 @@ extension CurrencyStatePatterns on CurrencyState {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>(
     TResult? Function(bool isLoading, List<CurrencyEntity> currencyList,
-            String? errorMessage)?
+            Failure? failure)?
         $default,
   ) {
     final _that = this;
     switch (_that) {
       case _CurrencyState() when $default != null:
-        return $default(
-            _that.isLoading, _that.currencyList, _that.errorMessage);
+        return $default(_that.isLoading, _that.currencyList, _that.failure);
       case _:
         return null;
     }
@@ -550,7 +546,7 @@ class _CurrencyState implements CurrencyState {
   const _CurrencyState(
       {this.isLoading = false,
       final List<CurrencyEntity> currencyList = const [],
-      this.errorMessage})
+      this.failure})
       : _currencyList = currencyList;
 
   @override
@@ -566,7 +562,7 @@ class _CurrencyState implements CurrencyState {
   }
 
   @override
-  final String? errorMessage;
+  final Failure? failure;
 
   /// Create a copy of CurrencyState
   /// with the given fields replaced by the non-null parameter values.
@@ -585,17 +581,16 @@ class _CurrencyState implements CurrencyState {
                 other.isLoading == isLoading) &&
             const DeepCollectionEquality()
                 .equals(other._currencyList, _currencyList) &&
-            (identical(other.errorMessage, errorMessage) ||
-                other.errorMessage == errorMessage));
+            (identical(other.failure, failure) || other.failure == failure));
   }
 
   @override
   int get hashCode => Object.hash(runtimeType, isLoading,
-      const DeepCollectionEquality().hash(_currencyList), errorMessage);
+      const DeepCollectionEquality().hash(_currencyList), failure);
 
   @override
   String toString() {
-    return 'CurrencyState(isLoading: $isLoading, currencyList: $currencyList, errorMessage: $errorMessage)';
+    return 'CurrencyState(isLoading: $isLoading, currencyList: $currencyList, failure: $failure)';
   }
 }
 
@@ -608,9 +603,7 @@ abstract mixin class _$CurrencyStateCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {bool isLoading,
-      List<CurrencyEntity> currencyList,
-      String? errorMessage});
+      {bool isLoading, List<CurrencyEntity> currencyList, Failure? failure});
 }
 
 /// @nodoc
@@ -628,7 +621,7 @@ class __$CurrencyStateCopyWithImpl<$Res>
   $Res call({
     Object? isLoading = null,
     Object? currencyList = null,
-    Object? errorMessage = freezed,
+    Object? failure = freezed,
   }) {
     return _then(_CurrencyState(
       isLoading: null == isLoading
@@ -639,10 +632,10 @@ class __$CurrencyStateCopyWithImpl<$Res>
           ? _self._currencyList
           : currencyList // ignore: cast_nullable_to_non_nullable
               as List<CurrencyEntity>,
-      errorMessage: freezed == errorMessage
-          ? _self.errorMessage
-          : errorMessage // ignore: cast_nullable_to_non_nullable
-              as String?,
+      failure: freezed == failure
+          ? _self.failure
+          : failure // ignore: cast_nullable_to_non_nullable
+              as Failure?,
     ));
   }
 }

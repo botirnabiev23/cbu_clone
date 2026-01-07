@@ -1,8 +1,12 @@
 part of 'currency_search_cubit.dart';
 
 @freezed
-class CurrencySearchState with _$CurrencySearchState {
-  const factory CurrencySearchState.initial() = _Initial;
-  const factory CurrencySearchState.success(List<CurrencyEntity> currencies) =
-      _Success;
+abstract class CurrencySearchState with _$CurrencySearchState {
+  const factory CurrencySearchState.initial({
+    @Default(<CurrencyEntity>[]) List<CurrencyEntity> allCurrencies,
+    @Default(<CurrencyEntity>[]) List<CurrencyEntity> filteredCurrencies,
+    @Default('') String query,
+    @Default(false) bool isSearching,
+    @Default(0) int currentIndex,
+  }) = _Initial;
 }

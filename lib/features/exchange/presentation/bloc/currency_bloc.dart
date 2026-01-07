@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:cbu/core/error/failures.dart';
 import 'package:cbu/core/use_cases/use_case.dart';
 import 'package:cbu/features/exchange/data/models/currency_models.dart';
 import 'package:cbu/features/exchange/domain/entities/currency_entity.dart';
@@ -13,22 +14,45 @@ part 'currency_bloc.freezed.dart';
 
 @injectable
 class CurrencyBloc extends Bloc<CurrencyEvent, CurrencyState> {
-  final GetCurrency getCurrency;
+  final GetCurrencyUseCase getCurrency;
   CurrencyBloc(this.getCurrency) : super(const CurrencyState()) {
-    on<CurrencyEvent>(_onLoadCurrency);
+    on<_LoadCurrencies>(_onLoadCurrency);
+    on<_FetchRequested>(_onFetchRequested);
   }
 
   Future<void> _onLoadCurrency(
-    CurrencyEvent event,
+    _LoadCurrencies event,
     Emitter<CurrencyState> emit,
   ) async {
-    emit(state.copyWith(isLoading: true, errorMessage: null));
+    emit(state.copyWith(isLoading: true));
     final result = await getCurrency(NoParams());
     result.fold(
       (failure) => emit(
         state.copyWith(
           isLoading: false,
-          errorMessage: failure.toString(),
+          failure: failure,
+        ),
+      ),
+      (currencyList) => emit(
+        state.copyWith(
+          isLoading: false,
+          currencyList: currencyList,
+        ),
+      ),
+    );
+  }
+
+  Future<void> _onFetchRequested(
+    _FetchRequested event,
+    Emitter<CurrencyState> emit,
+  ) async {
+    emit(state.copyWith(isLoading: true));
+    final result = await getCurrency(NoParams());
+    result.fold(
+      (failure) => emit(
+        state.copyWith(
+          isLoading: false,
+          failure: failure,
         ),
       ),
       (currencyList) => emit(
