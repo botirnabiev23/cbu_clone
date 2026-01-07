@@ -7,6 +7,5 @@ abstract class CurrencySearchState with _$CurrencySearchState {
     @Default(<CurrencyEntity>[]) List<CurrencyEntity> filteredCurrencies,
     @Default('') String query,
     @Default(false) bool isSearching,
-    @Default(0) int currentIndex,
   }) = _Initial;
 }

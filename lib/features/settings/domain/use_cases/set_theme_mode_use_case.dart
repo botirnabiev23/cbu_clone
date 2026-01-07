@@ -5,7 +5,7 @@ import 'package:dartz/dartz.dart';
 import 'package:flutter/material.dart';
 import 'package:injectable/injectable.dart';
 
-@injectable
+@lazySingleton
 class SetThemeModeUseCase extends UseCase<Unit, ThemeMode> {
   final SettingsRepository repository;
 

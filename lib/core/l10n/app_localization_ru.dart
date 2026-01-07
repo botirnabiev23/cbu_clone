@@ -36,7 +36,7 @@ class AppLocalizationsRu extends AppLocalizations {
   String get news => 'Новости';
 
   @override
-  String get maps => 'Карта';
+  String get favourites => 'Избранное';
 
   @override
   String get settings => 'Настройки';

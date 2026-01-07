@@ -22,10 +22,6 @@ class CurrencySearchCubit extends Cubit<CurrencySearchState> {
     );
   }
 
-  void changeIndex(int index) {
-    emit(state.copyWith(currentIndex: index));
-  }
-
   void startSearch() {
     if (state.isSearching) {
       return;

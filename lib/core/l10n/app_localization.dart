@@ -154,11 +154,11 @@ abstract class AppLocalizations {
   /// **'Новости'**
   String get news;
 
-  /// No description provided for @maps.
+  /// No description provided for @favourites.
   ///
   /// In ru, this message translates to:
-  /// **'Карта'**
-  String get maps;
+  /// **'Избранное'**
+  String get favourites;
 
   /// No description provided for @settings.
   ///

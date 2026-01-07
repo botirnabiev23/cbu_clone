@@ -36,7 +36,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get news => 'News';
 
   @override
-  String get maps => 'Maps';
+  String get favourites => 'Favourites';
 
   @override
   String get settings => 'Settings';

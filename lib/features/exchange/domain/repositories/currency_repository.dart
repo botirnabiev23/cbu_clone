@@ -4,4 +4,6 @@ import 'package:dartz/dartz.dart';
 
 abstract interface class CurrencyRepository {
   Future<Either<Failure, List<CurrencyEntity>>> fetchCurrencies();
+  Future<Either<Failure, void>> addFavourite(CurrencyEntity currency);
+  Future<Either<Failure, List<CurrencyEntity>>> getFavourites();
 }

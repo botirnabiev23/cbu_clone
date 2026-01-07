@@ -1,5 +1,5 @@
-import 'package:cbu/features/home/home_page.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -16,13 +16,10 @@ class Spinkit extends State<SplashScreen> {
       const Duration(seconds: 1),
     ).then(
       (value) {
-        Navigator.pushReplacement(
-          // ignore: use_build_context_synchronously
-          context,
-          MaterialPageRoute(
-            builder: (context) => const HomePageCB(),
-          ),
-        );
+        if (!mounted) {
+          return;
+        }
+        context.go('/currency');
       },
     );
   }

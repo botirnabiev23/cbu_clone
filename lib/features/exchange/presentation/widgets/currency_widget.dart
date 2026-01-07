@@ -1,10 +1,17 @@
 import 'package:cbu/features/exchange/domain/entities/currency_entity.dart';
+import 'package:cbu/features/favourites/bloc/favourites_bloc.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class CurrencyPageCBWidget extends StatelessWidget {
   final CurrencyEntity currency;
+  final bool isFavourite;
 
-  const CurrencyPageCBWidget({super.key, required this.currency});
+  const CurrencyPageCBWidget({
+    super.key,
+    required this.currency,
+    this.isFavourite = false,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -59,9 +66,26 @@ class CurrencyPageCBWidget extends StatelessWidget {
             fontSize: 16,
           ),
         ),
-        trailing: Icon(
-          getArrow().icon,
-          color: getColor(),
+        trailing: Row(
+          spacing: 10,
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Icon(
+              getArrow().icon,
+              color: getColor(),
+            ),
+            IconButton(
+              onPressed: () {
+                context.read<FavouritesBloc>().add(
+                      FavouritesEvent.add(currency),
+                    );
+              },
+              icon: Icon(
+                isFavourite ? Icons.star : Icons.star_border,
+                color: isFavourite ? Colors.amber : Colors.grey,
+              ),
+            ),
+          ],
         ),
       ),
     );

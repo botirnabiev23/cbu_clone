@@ -1,6 +1,7 @@
 import 'package:cbu/features/exchange/presentation/bloc/currency_bloc.dart';
 import 'package:cbu/features/exchange/presentation/cubit/currency_search_cubit.dart';
 import 'package:cbu/features/exchange/presentation/widgets/currency_widget.dart';
+import 'package:cbu/features/favourites/bloc/favourites_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -38,10 +39,20 @@ class CurrencyPage extends StatelessWidget {
                     .read<CurrencyBloc>()
                     .add(const CurrencyEvent.fetchRequested());
               },
-              child: ListView.builder(
-                itemCount: currencies.length,
-                itemBuilder: (context, index) {
-                  return CurrencyPageCBWidget(currency: currencies[index]);
+              child: BlocBuilder<FavouritesBloc, FavouritesState>(
+                builder: (context, favState) {
+                  return ListView.builder(
+                    itemCount: currencies.length,
+                    itemBuilder: (context, index) {
+                      final currency = currencies[index];
+                      final isFav =
+                          favState.currencies.any((e) => e.ccy == currency.ccy);
+                      return CurrencyPageCBWidget(
+                        currency: currency,
+                        isFavourite: isFav,
+                      );
+                    },
+                  );
                 },
               ),
             );
