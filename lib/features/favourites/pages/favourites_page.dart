@@ -16,17 +16,21 @@ class FavouritesPage extends StatelessWidget {
               if (state.isLoading) {
                 return const Center(child: CircularProgressIndicator());
               } else if (state.currencies.isNotEmpty) {
-                return ListView.builder(
-                  itemCount: state.currencies.length,
-                  itemBuilder: (context, index) {
-                    final currency = state.currencies[index];
-                    final isFav =
-                        state.currencies.any((e) => e.ccy == currency.ccy);
-                    return CurrencyPageCBWidget(
-                      currency: currency,
-                      isFavourite: isFav,
-                    );
-                  },
+                return Padding(
+                  padding: const EdgeInsets.only(top: 5),
+                  child: ListView.separated(
+                    separatorBuilder: (context, index) => const Divider(),
+                    itemCount: state.currencies.length,
+                    itemBuilder: (context, index) {
+                      final currency = state.currencies[index];
+                      final isFav =
+                          state.currencies.any((e) => e.ccy == currency.ccy);
+                      return CurrencyPageCBWidget(
+                        currency: currency,
+                        isFavourite: isFav,
+                      );
+                    },
+                  ),
                 );
               } else {
                 return const Center(

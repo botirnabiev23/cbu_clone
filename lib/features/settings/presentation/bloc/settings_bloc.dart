@@ -51,7 +51,7 @@ class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
     final Locale? locale = (languageCode == null)
         ? null
         : L10n.all.firstWhere(
-            (l) => l.languageCode == languageCode,
+            (l) => l.languageCode == languageCode.languageCode,
             orElse: () => L10n.all.first,
           );
 

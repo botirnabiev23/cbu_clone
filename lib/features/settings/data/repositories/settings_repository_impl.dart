@@ -32,7 +32,7 @@ class SettingsRepositoryImpl implements SettingsRepository {
   Future<Either<Failure, ThemeMode>> getThemeMode() async {
     final themeMode = await localDataSource.getThemeMode();
     if (themeMode == null) {
-      return Left(ServerFailure());
+      return const Left(ServerFailure());
     }
     return Right(themeMode);
   }

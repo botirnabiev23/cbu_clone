@@ -1,4 +1,5 @@
 import 'package:cbu/core/extensions/l10n_extension.dart';
+
 import 'package:cbu/features/exchange/presentation/bloc/currency_bloc.dart';
 import 'package:cbu/features/exchange/presentation/cubit/currency_search_cubit.dart';
 import 'package:cbu/features/settings/presentation/bloc/settings_bloc.dart';
@@ -48,7 +49,9 @@ class _HomePageCBState extends State<HomePageCB> {
 
     return BlocBuilder<SettingsBloc, SettingsState>(
       builder: (context, settingsState) {
-        bool isDarkMode = settingsState.themeMode == ThemeMode.dark;
+        final appBarColor =
+            Theme.of(context).appBarTheme.foregroundColor ?? Colors.white;
+
         return BlocListener<CurrencyBloc, CurrencyState>(
           listener: (context, currencyState) {
             if (currencyState.currencyList.isNotEmpty) {
@@ -63,53 +66,63 @@ class _HomePageCBState extends State<HomePageCB> {
               final isSearch = searchState.isSearching;
 
               return Scaffold(
-                bottomNavigationBar: BottomNavigationBar(
-                  unselectedItemColor: Colors.grey.shade400,
-                  showUnselectedLabels: true,
-                  unselectedIconTheme:
-                      IconThemeData(color: Colors.grey.shade400),
-                  selectedIconTheme:
-                      IconThemeData(color: Colors.yellow.shade700),
-                  selectedItemColor: Colors.yellow.shade700,
-                  type: BottomNavigationBarType.fixed,
-                  onTap: (int newIndex) {
-                    widget.navigationShell.goBranch(
-                      newIndex,
-                      initialLocation:
-                          newIndex == widget.navigationShell.currentIndex,
-                    );
-                  },
-                  currentIndex: currentIndex,
-                  items: <BottomNavigationBarItem>[
-                    BottomNavigationBarItem(
-                      icon: const Icon(Icons.arrow_upward),
-                      label: context.l10n.currency,
-                    ),
-                    BottomNavigationBarItem(
-                      icon: const Icon(Icons.newspaper),
-                      label: context.l10n.news,
-                    ),
-                    BottomNavigationBarItem(
-                      icon: const Icon(Icons.star),
-                      label: context.l10n.favourites,
-                    ),
-                    BottomNavigationBarItem(
-                      icon: const Icon(Icons.settings),
-                      label: context.l10n.settings,
-                    ),
-                  ],
+                bottomNavigationBar: Theme(
+                  data: Theme.of(context).copyWith(
+                    splashColor: Colors.transparent,
+                    highlightColor: Colors.transparent,
+                  ),
+                  child: BottomNavigationBar(
+                    unselectedItemColor: Colors.grey.shade400,
+                    showUnselectedLabels: true,
+                    unselectedIconTheme:
+                        IconThemeData(color: Colors.grey.shade400),
+                    selectedIconTheme:
+                        IconThemeData(color: Colors.yellow.shade700),
+                    selectedItemColor: Colors.yellow.shade700,
+                    type: BottomNavigationBarType.fixed,
+                    onTap: (int newIndex) {
+                      widget.navigationShell.goBranch(
+                        newIndex,
+                        initialLocation:
+                            newIndex == widget.navigationShell.currentIndex,
+                      );
+                    },
+                    currentIndex: currentIndex,
+                    items: <BottomNavigationBarItem>[
+                      BottomNavigationBarItem(
+                        icon: const Icon(Icons.arrow_upward),
+                        label: context.l10n.currency,
+                      ),
+                      BottomNavigationBarItem(
+                        icon: const Icon(Icons.newspaper),
+                        label: context.l10n.news,
+                      ),
+                      BottomNavigationBarItem(
+                        icon: const Icon(Icons.star),
+                        label: context.l10n.favourites,
+                      ),
+                      BottomNavigationBarItem(
+                        icon: const Icon(Icons.settings),
+                        label: context.l10n.settings,
+                      ),
+                    ],
+                  ),
                 ),
                 appBar: AppBar(
                   title: isSearch && currentIndex == 0
                       ? TextField(
                           controller: _searchController,
                           autofocus: true,
-                          decoration: const InputDecoration(
-                            hintText: 'Поиск...',
+                          decoration: InputDecoration(
+                            hintText: context.l10n.search,
                             border: InputBorder.none,
-                            hintStyle: TextStyle(color: Colors.white70),
+                            hintStyle: TextStyle(
+                              color: appBarColor.withValues(alpha: 0.7),
+                            ),
                           ),
-                          style: const TextStyle(color: Colors.white),
+                          style: TextStyle(
+                            color: appBarColor,
+                          ),
                           onChanged: (query) {
                             context
                                 .read<CurrencySearchCubit>()
@@ -118,9 +131,7 @@ class _HomePageCBState extends State<HomePageCB> {
                         )
                       : Text(
                           appBar[currentIndex],
-                          style: TextStyle(
-                            color: isDarkMode ? Colors.black : Colors.white,
-                          ),
+                          style: TextStyle(color: appBarColor),
                         ),
                   actions: [
                     if (currentIndex == 0)
@@ -135,13 +146,11 @@ class _HomePageCBState extends State<HomePageCB> {
                         },
                         icon: Icon(
                           isSearch ? Icons.close : Icons.search,
-                          color: isDarkMode ? Colors.black : Colors.white,
+                          color: appBarColor,
                         ),
                       ),
                   ],
                   automaticallyImplyLeading: false,
-                  centerTitle: true,
-                  backgroundColor: Colors.yellow.shade700,
                 ),
                 body: widget.navigationShell,
               );

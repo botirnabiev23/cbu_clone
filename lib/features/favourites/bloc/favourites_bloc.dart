@@ -31,10 +31,10 @@ class FavouritesBloc extends Bloc<FavouritesEvent, FavouritesState> {
 
     result.fold(
       (failure) => emit(state.copyWith(isLoading: false)),
-      (currencies) => emit(
+      (entity) => emit(
         state.copyWith(
           isLoading: false,
-          currencies: currencies,
+          currencies: entity.list.reversed.toList(),
         ),
       ),
     );
