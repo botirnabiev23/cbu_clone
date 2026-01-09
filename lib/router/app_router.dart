@@ -22,25 +22,40 @@ final router = GoRouter(
     GoRoute(
       name: AppRoutes.splash.name,
       path: AppRoutes.splash.path,
-      builder: (context, state) => const SplashScreen(),
+      pageBuilder: (context, state) => CustomTransitionPage(
+        key: state.pageKey,
+        child: const SplashScreen(),
+        transitionsBuilder: (context, animation, secondaryAnimation, child) {
+          return FadeTransition(
+            opacity: animation,
+            child: child,
+          );
+        },
+      ),
     ),
     StatefulShellRoute.indexedStack(
-      builder: (_, __, navigatorShell) {
-        return MultiBlocProvider(
-          providers: [
-            BlocProvider(
-              create: (_) =>
-                  sl<CurrencyBloc>()..add(const CurrencyEvent.fetchRequested()),
-            ),
-            BlocProvider(
-              create: (_) => CurrencySearchCubit(),
-            ),
-            BlocProvider(
-              create: (_) =>
-                  sl<FavouritesBloc>()..add(const FavouritesEvent.load()),
-            ),
-          ],
-          child: HomePageCB(navigationShell: navigatorShell),
+      pageBuilder: (context, state, navigationShell) {
+        return CustomTransitionPage(
+          key: state.pageKey,
+          child: MultiBlocProvider(
+            providers: [
+              BlocProvider(
+                create: (_) => sl<CurrencyBloc>()
+                  ..add(const CurrencyEvent.fetchRequested()),
+              ),
+              BlocProvider(
+                create: (_) => CurrencySearchCubit(),
+              ),
+              BlocProvider(
+                create: (_) =>
+                    sl<FavouritesBloc>()..add(const FavouritesEvent.load()),
+              ),
+            ],
+            child: HomePageCB(navigationShell: navigationShell),
+          ),
+          transitionsBuilder: (context, animation, secondaryAnimation, child) {
+            return FadeTransition(opacity: animation, child: child);
+          },
         );
       },
       branches: [

@@ -25,8 +25,34 @@ class CBUApp extends StatelessWidget {
           return MaterialApp.router(
             routerConfig: router,
             themeMode: state.themeMode,
-            theme: ThemeData.light(),
-            darkTheme: ThemeData.dark(),
+            theme: ThemeData(
+              useMaterial3: true,
+              colorScheme: ColorScheme.fromSeed(
+                seedColor: Colors.yellow.shade700,
+                primary: Colors.yellow.shade700,
+                onPrimary: Colors.white,
+                brightness: Brightness.light,
+              ),
+              appBarTheme: AppBarTheme(
+                backgroundColor: Colors.yellow.shade700,
+                foregroundColor: Colors.white,
+                centerTitle: true,
+              ),
+            ),
+            darkTheme: ThemeData(
+              useMaterial3: true,
+              colorScheme: ColorScheme.fromSeed(
+                seedColor: Colors.yellow.shade700,
+                primary: Colors.yellow.shade700,
+                onPrimary: Colors.black,
+                brightness: Brightness.dark,
+              ),
+              appBarTheme: AppBarTheme(
+                backgroundColor: Colors.yellow.shade700,
+                foregroundColor: Colors.black,
+                centerTitle: true,
+              ),
+            ),
             debugShowCheckedModeBanner: false,
             supportedLocales: L10n.all,
             locale: state.locale,
