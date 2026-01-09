@@ -40,4 +40,7 @@ class AppLocalizationsUz extends AppLocalizations {
 
   @override
   String get settings => 'Sozlamalar';
+
+  @override
+  String get search => 'Qidirish...';
 }

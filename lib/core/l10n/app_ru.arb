@@ -10,5 +10,6 @@
   "currency": "Курсы",
   "news": "Новости",
   "favourites": "Избранное",
-  "settings": "Настройки"
+  "settings": "Настройки",
+  "search": "Поиск..."
 }

@@ -10,5 +10,6 @@
   "currency": "Currency",
   "news": "News",
   "favourites": "Favourites",
-  "settings": "Settings"
+  "settings": "Settings",
+  "search": "Search..."
 }

@@ -165,6 +165,12 @@ abstract class AppLocalizations {
   /// In ru, this message translates to:
   /// **'Настройки'**
   String get settings;
+
+  /// No description provided for @search.
+  ///
+  /// In ru, this message translates to:
+  /// **'Поиск...'**
+  String get search;
 }
 
 class _AppLocalizationsDelegate
