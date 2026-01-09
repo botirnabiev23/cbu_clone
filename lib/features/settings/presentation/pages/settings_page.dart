@@ -1,7 +1,9 @@
 import 'package:cbu/core/extensions/l10n_extension.dart';
+
 import 'package:cbu/features/settings/presentation/bloc/settings_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 
 class SettingsPage extends StatefulWidget {
   const SettingsPage({super.key});
@@ -28,44 +30,46 @@ class _SettingsPageState extends State<SettingsPage> {
     showModalBottomSheet(
       context: context,
       builder: (modalContext) {
-        return Column(
-          mainAxisSize: MainAxisSize.min,
-          children: <Widget>[
-            RadioListTile<String>(
-              title: const Text('O\'zbekcha'),
-              value: 'O\'zbekcha',
-              groupValue: currentSelected,
-              onChanged: (String? value) {
-                context
-                    .read<SettingsBloc>()
-                    .add(const SettingsEvent.localeChanged(Locale('uz')));
-                Navigator.pop(modalContext);
-              },
-            ),
-            RadioListTile<String>(
-              title: const Text('Русский'),
-              value: 'Русский',
-              groupValue: currentSelected,
-              onChanged: (String? value) {
-                context
-                    .read<SettingsBloc>()
-                    .add(const SettingsEvent.localeChanged(Locale('ru')));
-                Navigator.pop(modalContext);
-              },
-            ),
-            RadioListTile<String>(
-              title: const Text('English'),
-              value: 'English',
-              groupValue: currentSelected,
-              onChanged: (String? value) {
-                context
-                    .read<SettingsBloc>()
-                    .add(const SettingsEvent.localeChanged(Locale('en')));
-                Navigator.pop(modalContext);
-              },
-            ),
-            const SizedBox(height: 15),
-          ],
+        return RadioGroup<String>(
+          groupValue: currentSelected,
+          onChanged: (String? value) {
+            if (value == null) {
+              return;
+            }
+            late Locale locale;
+            switch (value) {
+              case 'O\'zbekcha':
+                locale = const Locale('uz');
+              case 'Русский':
+                locale = const Locale('ru');
+              case 'English':
+                locale = const Locale('en');
+              default:
+                locale = const Locale('ru');
+            }
+            context
+                .read<SettingsBloc>()
+                .add(SettingsEvent.localeChanged(locale));
+            context.pop(modalContext);
+          },
+          child: const Column(
+            mainAxisSize: MainAxisSize.min,
+            children: <Widget>[
+              RadioListTile<String>(
+                title: Text('O\'zbekcha'),
+                value: 'O\'zbekcha',
+              ),
+              RadioListTile<String>(
+                title: Text('Русский'),
+                value: 'Русский',
+              ),
+              RadioListTile<String>(
+                title: Text('English'),
+                value: 'English',
+              ),
+              SizedBox(height: 15),
+            ],
+          ),
         );
       },
     );
