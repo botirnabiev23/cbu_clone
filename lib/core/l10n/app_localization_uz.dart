@@ -36,8 +36,11 @@ class AppLocalizationsUz extends AppLocalizations {
   String get news => 'Yangiliklar';
 
   @override
-  String get maps => 'Xarita';
+  String get favourites => 'Sevimlilar';
 
   @override
   String get settings => 'Sozlamalar';
+
+  @override
+  String get search => 'Qidirish...';
 }

@@ -154,17 +154,23 @@ abstract class AppLocalizations {
   /// **'Новости'**
   String get news;
 
-  /// No description provided for @maps.
+  /// No description provided for @favourites.
   ///
   /// In ru, this message translates to:
-  /// **'Карта'**
-  String get maps;
+  /// **'Избранное'**
+  String get favourites;
 
   /// No description provided for @settings.
   ///
   /// In ru, this message translates to:
   /// **'Настройки'**
   String get settings;
+
+  /// No description provided for @search.
+  ///
+  /// In ru, this message translates to:
+  /// **'Поиск...'**
+  String get search;
 }
 
 class _AppLocalizationsDelegate

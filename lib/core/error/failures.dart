@@ -5,18 +5,15 @@ abstract class Failure extends Equatable {
 }
 
 // General failures
-class ServerFailure implements Failure {
-  @override
-  List<Object?> get props => throw UnimplementedError();
+class ServerFailure extends Failure {
+  final String? message;
+  const ServerFailure([this.message]);
 
   @override
-  bool? get stringify => throw UnimplementedError();
+  List<Object?> get props => [message];
 }
 
-class CacheFailure implements Failure {
+class CacheFailure extends Failure {
   @override
-  List<Object?> get props => throw UnimplementedError();
-
-  @override
-  bool? get stringify => throw UnimplementedError();
+  List<Object?> get props => [];
 }

@@ -9,6 +9,7 @@
   "support": "Maslahatlar va yordam",
   "currency": "Kurslar",
   "news": "Yangiliklar",
-  "maps": "Xarita",
-  "settings": "Sozlamalar"
+  "favourites": "Sevimlilar",
+  "settings": "Sozlamalar",
+  "search": "Qidirish..."
 }

@@ -1,5 +1,5 @@
+import 'package:cbu/features/exchange/domain/entities/currency_entity.dart';
 import 'package:json_annotation/json_annotation.dart';
-import '../../domain/entities/currency_entity.dart';
 
 part 'currency_models.g.dart';
 
@@ -56,7 +56,7 @@ class CurrencyModel {
 
   Map<String, dynamic> toJson() => _$CurrencyModelToJson(this);
 
-  Currency toEntity() => Currency(
+  CurrencyEntity toEntity() => CurrencyEntity(
         id: id,
         code: code,
         ccy: ccy,
