@@ -45,48 +45,38 @@ class CurrencyPageCBWidget extends StatelessWidget {
       return const Icon(Icons.remove);
     }
 
-    return Container(
-      decoration: const BoxDecoration(
-        border: Border(
-          bottom: BorderSide(
-            color: Colors.grey,
-            width: 1.0,
-          ),
+    return ListTile(
+      title: Text(
+        '${currency.nominal.toString()} ${currency.ccy} = ${currency.rate}',
+        style: const TextStyle(fontSize: 18),
+      ),
+      subtitle: Text(
+        getPlus(),
+        style: TextStyle(
+          color: getColor(),
+          fontSize: 16,
         ),
       ),
-      child: ListTile(
-        title: Text(
-          '${currency.nominal.toString()} ${currency.ccy} = ${currency.rate}',
-          style: const TextStyle(fontSize: 18),
-        ),
-        subtitle: Text(
-          getPlus(),
-          style: TextStyle(
+      trailing: Row(
+        spacing: 15,
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Icon(
+            getArrow().icon,
             color: getColor(),
-            fontSize: 16,
           ),
-        ),
-        trailing: Row(
-          spacing: 10,
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Icon(
-              getArrow().icon,
-              color: getColor(),
+          InkWell(
+            splashColor: Colors.transparent,
+            highlightColor: Colors.transparent,
+            onTap: () {
+              context.read<FavouritesBloc>().add(FavouritesEvent.add(currency));
+            },
+            child: Icon(
+              isFavourite ? Icons.star : Icons.star_border,
+              color: isFavourite ? Colors.amber : Colors.grey,
             ),
-            IconButton(
-              onPressed: () {
-                context.read<FavouritesBloc>().add(
-                      FavouritesEvent.add(currency),
-                    );
-              },
-              icon: Icon(
-                isFavourite ? Icons.star : Icons.star_border,
-                color: isFavourite ? Colors.amber : Colors.grey,
-              ),
-            ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }

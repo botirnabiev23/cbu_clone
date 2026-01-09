@@ -33,10 +33,10 @@ class CurrencyBloc extends Bloc<CurrencyEvent, CurrencyState> {
           failure: failure,
         ),
       ),
-      (currencyList) => emit(
+      (entity) => emit(
         state.copyWith(
           isLoading: false,
-          currencyList: currencyList,
+          currencyList: entity.list,
         ),
       ),
     );
@@ -55,10 +55,10 @@ class CurrencyBloc extends Bloc<CurrencyEvent, CurrencyState> {
           failure: failure,
         ),
       ),
-      (currencyList) => emit(
+      (entity) => emit(
         state.copyWith(
           isLoading: false,
-          currencyList: currencyList,
+          currencyList: entity.list,
         ),
       ),
     );

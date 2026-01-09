@@ -1,5 +1,5 @@
+import 'package:cbu/features/exchange/domain/entities/currency_entity.dart';
 import 'package:json_annotation/json_annotation.dart';
-import '../../domain/entities/currency_entity.dart';
 
 part 'currency_models.g.dart';
 

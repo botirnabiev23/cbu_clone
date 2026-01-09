@@ -25,7 +25,6 @@ mixin _$CurrencyEntity {
   String? get rate;
   String? get diff;
   String? get date;
-  bool? get isFavourite;
 
   /// Create a copy of CurrencyEntity
   /// with the given fields replaced by the non-null parameter values.
@@ -54,19 +53,17 @@ mixin _$CurrencyEntity {
             (identical(other.nominal, nominal) || other.nominal == nominal) &&
             (identical(other.rate, rate) || other.rate == rate) &&
             (identical(other.diff, diff) || other.diff == diff) &&
-            (identical(other.date, date) || other.date == date) &&
-            (identical(other.isFavourite, isFavourite) ||
-                other.isFavourite == isFavourite));
+            (identical(other.date, date) || other.date == date));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, id, code, ccy, ccyNmRU, ccyNmUZ,
-      ccyNmUZC, ccyNmEN, nominal, rate, diff, date, isFavourite);
+      ccyNmUZC, ccyNmEN, nominal, rate, diff, date);
 
   @override
   String toString() {
-    return 'CurrencyEntity(id: $id, code: $code, ccy: $ccy, ccyNmRU: $ccyNmRU, ccyNmUZ: $ccyNmUZ, ccyNmUZC: $ccyNmUZC, ccyNmEN: $ccyNmEN, nominal: $nominal, rate: $rate, diff: $diff, date: $date, isFavourite: $isFavourite)';
+    return 'CurrencyEntity(id: $id, code: $code, ccy: $ccy, ccyNmRU: $ccyNmRU, ccyNmUZ: $ccyNmUZ, ccyNmUZC: $ccyNmUZC, ccyNmEN: $ccyNmEN, nominal: $nominal, rate: $rate, diff: $diff, date: $date)';
   }
 }
 
@@ -87,8 +84,7 @@ abstract mixin class $CurrencyEntityCopyWith<$Res> {
       String? nominal,
       String? rate,
       String? diff,
-      String? date,
-      bool? isFavourite});
+      String? date});
 }
 
 /// @nodoc
@@ -115,7 +111,6 @@ class _$CurrencyEntityCopyWithImpl<$Res>
     Object? rate = freezed,
     Object? diff = freezed,
     Object? date = freezed,
-    Object? isFavourite = freezed,
   }) {
     return _then(_self.copyWith(
       id: freezed == id
@@ -162,10 +157,6 @@ class _$CurrencyEntityCopyWithImpl<$Res>
           ? _self.date
           : date // ignore: cast_nullable_to_non_nullable
               as String?,
-      isFavourite: freezed == isFavourite
-          ? _self.isFavourite
-          : isFavourite // ignore: cast_nullable_to_non_nullable
-              as bool?,
     ));
   }
 }
@@ -274,8 +265,7 @@ extension CurrencyEntityPatterns on CurrencyEntity {
             String? nominal,
             String? rate,
             String? diff,
-            String? date,
-            bool? isFavourite)?
+            String? date)?
         $default, {
     required TResult orElse(),
   }) {
@@ -293,8 +283,7 @@ extension CurrencyEntityPatterns on CurrencyEntity {
             _that.nominal,
             _that.rate,
             _that.diff,
-            _that.date,
-            _that.isFavourite);
+            _that.date);
       case _:
         return orElse();
     }
@@ -326,8 +315,7 @@ extension CurrencyEntityPatterns on CurrencyEntity {
             String? nominal,
             String? rate,
             String? diff,
-            String? date,
-            bool? isFavourite)
+            String? date)
         $default,
   ) {
     final _that = this;
@@ -344,8 +332,7 @@ extension CurrencyEntityPatterns on CurrencyEntity {
             _that.nominal,
             _that.rate,
             _that.diff,
-            _that.date,
-            _that.isFavourite);
+            _that.date);
       case _:
         throw StateError('Unexpected subclass');
     }
@@ -376,8 +363,7 @@ extension CurrencyEntityPatterns on CurrencyEntity {
             String? nominal,
             String? rate,
             String? diff,
-            String? date,
-            bool? isFavourite)?
+            String? date)?
         $default,
   ) {
     final _that = this;
@@ -394,8 +380,7 @@ extension CurrencyEntityPatterns on CurrencyEntity {
             _that.nominal,
             _that.rate,
             _that.diff,
-            _that.date,
-            _that.isFavourite);
+            _that.date);
       case _:
         return null;
     }
@@ -416,8 +401,7 @@ class _CurrencyEntity implements CurrencyEntity {
       this.nominal,
       this.rate,
       this.diff,
-      this.date,
-      this.isFavourite});
+      this.date});
   factory _CurrencyEntity.fromJson(Map<String, dynamic> json) =>
       _$CurrencyEntityFromJson(json);
 
@@ -443,8 +427,6 @@ class _CurrencyEntity implements CurrencyEntity {
   final String? diff;
   @override
   final String? date;
-  @override
-  final bool? isFavourite;
 
   /// Create a copy of CurrencyEntity
   /// with the given fields replaced by the non-null parameter values.
@@ -477,19 +459,17 @@ class _CurrencyEntity implements CurrencyEntity {
             (identical(other.nominal, nominal) || other.nominal == nominal) &&
             (identical(other.rate, rate) || other.rate == rate) &&
             (identical(other.diff, diff) || other.diff == diff) &&
-            (identical(other.date, date) || other.date == date) &&
-            (identical(other.isFavourite, isFavourite) ||
-                other.isFavourite == isFavourite));
+            (identical(other.date, date) || other.date == date));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, id, code, ccy, ccyNmRU, ccyNmUZ,
-      ccyNmUZC, ccyNmEN, nominal, rate, diff, date, isFavourite);
+      ccyNmUZC, ccyNmEN, nominal, rate, diff, date);
 
   @override
   String toString() {
-    return 'CurrencyEntity(id: $id, code: $code, ccy: $ccy, ccyNmRU: $ccyNmRU, ccyNmUZ: $ccyNmUZ, ccyNmUZC: $ccyNmUZC, ccyNmEN: $ccyNmEN, nominal: $nominal, rate: $rate, diff: $diff, date: $date, isFavourite: $isFavourite)';
+    return 'CurrencyEntity(id: $id, code: $code, ccy: $ccy, ccyNmRU: $ccyNmRU, ccyNmUZ: $ccyNmUZ, ccyNmUZC: $ccyNmUZC, ccyNmEN: $ccyNmEN, nominal: $nominal, rate: $rate, diff: $diff, date: $date)';
   }
 }
 
@@ -512,8 +492,7 @@ abstract mixin class _$CurrencyEntityCopyWith<$Res>
       String? nominal,
       String? rate,
       String? diff,
-      String? date,
-      bool? isFavourite});
+      String? date});
 }
 
 /// @nodoc
@@ -540,7 +519,6 @@ class __$CurrencyEntityCopyWithImpl<$Res>
     Object? rate = freezed,
     Object? diff = freezed,
     Object? date = freezed,
-    Object? isFavourite = freezed,
   }) {
     return _then(_CurrencyEntity(
       id: freezed == id
@@ -587,10 +565,6 @@ class __$CurrencyEntityCopyWithImpl<$Res>
           ? _self.date
           : date // ignore: cast_nullable_to_non_nullable
               as String?,
-      isFavourite: freezed == isFavourite
-          ? _self.isFavourite
-          : isFavourite // ignore: cast_nullable_to_non_nullable
-              as bool?,
     ));
   }
 }

@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:cbu/core/error/failures.dart';
+import 'package:cbu/features/exchange/domain/entities/currencies_entity.dart';
 import 'package:cbu/features/exchange/domain/entities/currency_entity.dart';
 import 'package:cbu/features/exchange/domain/repositories/currency_repository.dart';
 import 'package:cbu/features/exchange/data/data_source/remote_data_source/remote_data_source.dart';
@@ -17,10 +18,11 @@ class CurrencyRepositoryImpl implements CurrencyRepository {
   CurrencyRepositoryImpl(this.remoteDataSource, this.sharedPreferences);
 
   @override
-  Future<Either<Failure, List<CurrencyEntity>>> fetchCurrencies() async {
+  Future<Either<Failure, CurrenciesEntity>> fetchCurrencies() async {
     try {
       final result = await remoteDataSource.getRequest();
-      return Right(result);
+      final entities = result.map((model) => model.toEntity()).toList();
+      return Right(CurrenciesEntity(list: entities));
     } catch (e) {
       return Left(ServerFailure(e.toString()));
     }
@@ -34,14 +36,12 @@ class CurrencyRepositoryImpl implements CurrencyRepository {
 
       final String currencyJson = jsonEncode(currency.toJson());
 
-      // Check if already exists by checking 'ccy'
       final int index = favourites.indexWhere((item) {
         final Map<String, dynamic> decoded = jsonDecode(item);
         return decoded['ccy'] == currency.ccy;
       });
 
       if (index != -1) {
-        // Remove if already exists (toggle behavior) or just keep it
         favourites.removeAt(index);
       } else {
         favourites.add(currencyJson);
@@ -55,7 +55,7 @@ class CurrencyRepositoryImpl implements CurrencyRepository {
   }
 
   @override
-  Future<Either<Failure, List<CurrencyEntity>>> getFavourites() async {
+  Future<Either<Failure, CurrenciesEntity>> getFavourites() async {
     try {
       final List<String> favourites =
           sharedPreferences.getStringList(_favouritesKey) ?? [];
@@ -64,7 +64,7 @@ class CurrencyRepositoryImpl implements CurrencyRepository {
           .map((item) => CurrencyEntity.fromJson(jsonDecode(item)))
           .toList();
 
-      return Right(entities);
+      return Right(CurrenciesEntity(list: entities));
     } catch (e) {
       return Left(CacheFailure());
     }
