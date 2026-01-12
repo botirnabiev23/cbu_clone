@@ -4,7 +4,6 @@ abstract class Failure extends Equatable {
   const Failure([List properties = const <dynamic>[]]);
 }
 
-// General failures
 class ServerFailure extends Failure {
   final String? message;
   const ServerFailure([this.message]);

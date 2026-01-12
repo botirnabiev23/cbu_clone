@@ -43,4 +43,16 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get search => 'Поиск...';
+
+  @override
+  String get retry => 'Повторить';
+
+  @override
+  String get unknown_error => 'Неизвестная ошибка';
+
+  @override
+  String get no_data => 'Данные отсутствуют';
+
+  @override
+  String get server_error => 'Ошибка сервера';
 }

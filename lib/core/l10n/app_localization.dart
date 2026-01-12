@@ -171,6 +171,30 @@ abstract class AppLocalizations {
   /// In ru, this message translates to:
   /// **'Поиск...'**
   String get search;
+
+  /// No description provided for @retry.
+  ///
+  /// In ru, this message translates to:
+  /// **'Повторить'**
+  String get retry;
+
+  /// No description provided for @unknown_error.
+  ///
+  /// In ru, this message translates to:
+  /// **'Неизвестная ошибка'**
+  String get unknown_error;
+
+  /// No description provided for @no_data.
+  ///
+  /// In ru, this message translates to:
+  /// **'Данные отсутствуют'**
+  String get no_data;
+
+  /// No description provided for @server_error.
+  ///
+  /// In ru, this message translates to:
+  /// **'Ошибка сервера'**
+  String get server_error;
 }
 
 class _AppLocalizationsDelegate

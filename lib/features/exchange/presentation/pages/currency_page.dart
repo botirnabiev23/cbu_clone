@@ -1,3 +1,5 @@
+import 'package:cbu/core/error/failures.dart';
+import 'package:cbu/core/extensions/l10n_extension.dart';
 import 'package:cbu/features/exchange/presentation/bloc/currency_bloc.dart';
 import 'package:cbu/features/exchange/presentation/cubit/currency_search_cubit.dart';
 import 'package:cbu/features/exchange/presentation/widgets/currency_widget.dart';
@@ -12,10 +14,11 @@ class CurrencyPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<CurrencyBloc, CurrencyState>(
-      builder: (context, currencyState) {
+      builder: (context, state) {
         final appBarColor =
             Theme.of(context).appBarTheme.foregroundColor ?? Colors.white;
-        if (currencyState.isLoading && currencyState.currencyList.isEmpty) {
+
+        if (state.isLoading && state.currencyList.isEmpty) {
           return const Center(child: CupertinoActivityIndicator());
         }
 
@@ -24,38 +27,39 @@ class CurrencyPage extends StatelessWidget {
             final currencies = searchState.filteredCurrencies;
 
             if (currencies.isEmpty) {
-              if (currencyState.isLoading) {
+              if (state.isLoading) {
                 return const Center(child: CupertinoActivityIndicator());
               }
+              if (state.failure != null && state.currencyList.isEmpty) {
+                String message = context.l10n.unknown_error;
 
-              final error = currencyState.failure;
-              if (error != null && currencyState.currencyList.isEmpty) {
-                return Padding(
-                  padding: const EdgeInsets.all(10),
-                  child: Center(
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text(error.toString()),
-                        ElevatedButton(
-                          style: ButtonStyle(
-                            backgroundColor:
-                                WidgetStatePropertyAll(appBarColor),
-                          ),
-                          onPressed: () {
-                            context
-                                .read<CurrencyBloc>()
-                                .add(const CurrencyEvent.fetchRequested());
-                          },
-                          child: const Text('Retry'),
+                if (state.failure is ServerFailure) {
+                  message = (state.failure as ServerFailure).message ??
+                      context.l10n.server_error;
+                }
+
+                return Center(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(message),
+                      ElevatedButton(
+                        style: ButtonStyle(
+                          backgroundColor: WidgetStatePropertyAll(appBarColor),
                         ),
-                      ],
-                    ),
+                        onPressed: () {
+                          context
+                              .read<CurrencyBloc>()
+                              .add(const CurrencyEvent.fetchRequested());
+                        },
+                        child: Text(context.l10n.retry),
+                      ),
+                    ],
                   ),
                 );
               }
 
-              return const Center(child: Text('No data available'));
+              return Center(child: Text(context.l10n.no_data));
             }
 
             return BlocBuilder<FavouritesBloc, FavouritesState>(

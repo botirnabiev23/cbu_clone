@@ -57,14 +57,50 @@ class CurrencyRepositoryImpl implements CurrencyRepository {
   @override
   Future<Either<Failure, CurrenciesEntity>> getFavourites() async {
     try {
-      final List<String> favourites =
+      final List<String> cachedStrings =
           sharedPreferences.getStringList(_favouritesKey) ?? [];
 
-      final List<CurrencyEntity> entities = favourites
+      if (cachedStrings.isEmpty) {
+        return const Right(CurrenciesEntity(list: []));
+      }
+
+      final List<CurrencyEntity> cachedEntities = cachedStrings
           .map((item) => CurrencyEntity.fromJson(jsonDecode(item)))
           .toList();
 
-      return Right(CurrenciesEntity(list: entities));
+      try {
+        final remoteResult = await remoteDataSource.getRequest();
+        final Map<String, CurrencyEntity> freshEntitiesMap = {
+          for (var model in remoteResult)
+            if (model.ccy != null) model.ccy!: model.toEntity()
+        };
+
+        final List<CurrencyEntity> updatedEntities = [];
+        final List<String> updatedStrings = [];
+        bool hasChanges = false;
+
+        for (var cached in cachedEntities) {
+          final fresh = freshEntitiesMap[cached.ccy];
+          if (fresh != null) {
+            updatedEntities.add(fresh);
+            updatedStrings.add(jsonEncode(fresh.toJson()));
+            if (fresh != cached) {
+              hasChanges = true;
+            }
+          } else {
+            updatedEntities.add(cached);
+            updatedStrings.add(jsonEncode(cached.toJson()));
+          }
+        }
+
+        if (hasChanges) {
+          await sharedPreferences.setStringList(_favouritesKey, updatedStrings);
+        }
+
+        return Right(CurrenciesEntity(list: updatedEntities));
+      } catch (_) {
+        return Right(CurrenciesEntity(list: cachedEntities));
+      }
     } catch (e) {
       return Left(CacheFailure());
     }

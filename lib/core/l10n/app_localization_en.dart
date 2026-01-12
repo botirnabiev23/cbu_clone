@@ -43,4 +43,16 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get search => 'Search...';
+
+  @override
+  String get retry => 'Retry';
+
+  @override
+  String get unknown_error => 'Unknown error';
+
+  @override
+  String get no_data => 'No data available';
+
+  @override
+  String get server_error => 'Server error';
 }

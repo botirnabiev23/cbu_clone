@@ -11,5 +11,9 @@
   "news": "Yangiliklar",
   "favourites": "Sevimlilar",
   "settings": "Sozlamalar",
-  "search": "Qidirish..."
+  "search": "Qidirish...",
+  "retry": "Qayta urinish",
+  "unknown_error": "Noma'lum xato",
+  "no_data": "Ma'lumot mavjud emas",
+  "server_error": "Server xatosi"
 }
