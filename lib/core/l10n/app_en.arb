@@ -9,6 +9,11 @@
   "support": "Tips and Support",
   "currency": "Currency",
   "news": "News",
-  "maps": "Maps",
-  "settings": "Settings"
+  "favourites": "Favourites",
+  "settings": "Settings",
+  "search": "Search...",
+  "retry": "Retry",
+  "unknown_error": "Unknown error",
+  "no_data": "No data available",
+  "server_error": "Server error"
 }
