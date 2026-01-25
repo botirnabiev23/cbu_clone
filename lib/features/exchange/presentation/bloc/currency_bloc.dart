@@ -15,7 +15,9 @@ part 'currency_bloc.freezed.dart';
 @injectable
 class CurrencyBloc extends Bloc<CurrencyEvent, CurrencyState> {
   final GetCurrencyUseCase getCurrency;
-  CurrencyBloc(this.getCurrency) : super(const CurrencyState()) {
+  CurrencyBloc(
+    this.getCurrency,
+  ) : super(const CurrencyState()) {
     on<_LoadCurrencies>(_onLoadCurrency);
     on<_FetchRequested>(_onFetchRequested);
   }
@@ -36,7 +38,7 @@ class CurrencyBloc extends Bloc<CurrencyEvent, CurrencyState> {
       (entity) => emit(
         state.copyWith(
           isLoading: false,
-          currencyList: entity.list,
+          currencyList: entity.currencies,
         ),
       ),
     );
@@ -58,7 +60,7 @@ class CurrencyBloc extends Bloc<CurrencyEvent, CurrencyState> {
       (entity) => emit(
         state.copyWith(
           isLoading: false,
-          currencyList: entity.list,
+          currencyList: entity.currencies,
         ),
       ),
     );

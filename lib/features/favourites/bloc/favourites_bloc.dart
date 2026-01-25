@@ -27,17 +27,14 @@ class FavouritesBloc extends Bloc<FavouritesEvent, FavouritesState> {
   ) async {
     emit(state.copyWith(isLoading: true));
 
-    final result = await getFavouritesUseCase.call(NoParams());
+    await getFavouritesUseCase.call(NoParams());
 
-    result.fold(
-      (failure) => emit(state.copyWith(isLoading: false)),
-      (entity) => emit(
-        state.copyWith(
-          isLoading: false,
-          currencies: entity.list.reversed.toList(),
-        ),
-      ),
-    );
+    (entity) => emit(
+          state.copyWith(
+            isLoading: false,
+            currencies: entity.currencies.reversed.toList(),
+          ),
+        );
   }
 
   Future<void> _onAddFavourite(

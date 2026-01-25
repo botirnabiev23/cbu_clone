@@ -3,13 +3,13 @@ import 'package:cbu/features/exchange/data/models/quote_models.dart';
 import 'package:dio/dio.dart';
 import 'package:injectable/injectable.dart';
 
-abstract interface class RemoteDataSource {
+abstract interface class CurrencyRemoteDataSource {
   Future<List<CurrencyModel>> getRequest();
   Future<List<Quote>> getQuotes();
 }
 
-@LazySingleton(as: RemoteDataSource)
-class CurrencyRemoteDataSourceImpl implements RemoteDataSource {
+@LazySingleton(as: CurrencyRemoteDataSource)
+class CurrencyRemoteDataSourceImpl implements CurrencyRemoteDataSource {
   final Dio dio;
   CurrencyRemoteDataSourceImpl(this.dio);
   @override

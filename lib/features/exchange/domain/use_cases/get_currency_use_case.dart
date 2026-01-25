@@ -11,7 +11,6 @@ class GetCurrencyUseCase extends UseCase<CurrenciesEntity, NoParams> {
   GetCurrencyUseCase(this.repository);
 
   @override
-  Future<Either<Failure, CurrenciesEntity>> call(NoParams _) async {
-    return await repository.fetchCurrencies();
-  }
+  Future<Either<Failure, CurrenciesEntity>> call(NoParams _) async =>
+      await repository.getCurrencies();
 }

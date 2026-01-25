@@ -31,11 +31,13 @@ class CurrencyPage extends StatelessWidget {
                 return const Center(child: CupertinoActivityIndicator());
               }
               if (state.failure != null && state.currencyList.isEmpty) {
-                String message = context.l10n.unknown_error;
+                final String message;
 
                 if (state.failure is ServerFailure) {
                   message = (state.failure as ServerFailure).message ??
                       context.l10n.server_error;
+                } else {
+                  message = context.l10n.unknown_error;
                 }
 
                 return Center(
@@ -72,8 +74,8 @@ class CurrencyPage extends StatelessWidget {
                     CupertinoSliverRefreshControl(
                       onRefresh: () async {
                         context.read<CurrencyBloc>().add(
-                              const CurrencyEvent.fetchRequested(),
-                            );
+                          const CurrencyEvent.fetchRequested(),
+                        );
                       },
                     ),
                     SliverPadding(

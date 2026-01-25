@@ -1,5 +1,5 @@
 import 'package:cbu/core/di/injection.dart';
-import 'package:cbu/features/exchange/data/data_source/remote_data_source/remote_data_source.dart';
+import 'package:cbu/features/exchange/data/data_source/currency_remote_data_source.dart';
 import 'package:cbu/features/exchange/data/models/quote_models.dart';
 import 'package:flutter/material.dart';
 
@@ -8,8 +8,8 @@ class NewsPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder(
-      future: CurrencyRemoteDataSourceImpl(sl()).getQuotes(),
+    return FutureBuilder<List<Quote>>(
+      future: sl<CurrencyRemoteDataSource>().getQuotes(),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return const Center(child: CircularProgressIndicator());
