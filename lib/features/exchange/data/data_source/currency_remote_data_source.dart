@@ -1,24 +1,23 @@
 import 'package:cbu/features/exchange/data/models/currency_models.dart';
 import 'package:cbu/features/exchange/data/models/quote_models.dart';
-import 'package:cbu/features/exchange/domain/entities/currency_entity.dart';
 import 'package:dio/dio.dart';
 import 'package:injectable/injectable.dart';
 
-abstract interface class RemoteDataSource {
-  Future<List<Currency>> getRequest();
+abstract interface class CurrencyRemoteDataSource {
+  Future<List<CurrencyModel>> getRequest();
   Future<List<Quote>> getQuotes();
 }
 
-@LazySingleton(as: RemoteDataSource)
-class CurrencyRemoteDataSourceImpl implements RemoteDataSource {
+@LazySingleton(as: CurrencyRemoteDataSource)
+class CurrencyRemoteDataSourceImpl implements CurrencyRemoteDataSource {
   final Dio dio;
   CurrencyRemoteDataSourceImpl(this.dio);
   @override
-  Future<List<Currency>> getRequest() async {
+  Future<List<CurrencyModel>> getRequest() async {
     final response =
         await dio.get('https://cbu.uz/uzc/arkhiv-kursov-valyut/json/');
     final List<dynamic> json = response.data;
-    return json.map((item) => CurrencyModel.fromJson(item).toEntity()).toList();
+    return json.map((item) => CurrencyModel.fromJson(item)).toList();
   }
 
   @override

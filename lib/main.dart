@@ -1,62 +1,70 @@
-import 'package:cbu/core/l10n/l10n.dart';
-import 'package:cbu/features/exchange/presentation/bloc/currency_bloc.dart';
+import 'package:cbu/core/di/injection.dart';
 import 'package:cbu/core/l10n/app_localization.dart';
-import 'package:cbu/core/locale/locale_theme.dart';
-import 'package:cbu/features/splash/splash_screen.dart';
-import 'package:cbu/core/providers/lang_provider.dart';
-import 'package:cbu/core/providers/theme_provider.dart';
+import 'package:cbu/core/l10n/l10n.dart';
+import 'package:cbu/features/settings/presentation/bloc/settings_bloc.dart';
+import 'package:cbu/router/app_router.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:provider/provider.dart';
-import 'package:cbu/core/di/injection.dart';
 
 void main() async {
-  await configureDependencies();
   WidgetsFlutterBinding.ensureInitialized();
-  await SharedPreferencesHelper.init();
-  runApp(
-    MultiProvider(
-      providers: [
-        ChangeNotifierProvider(create: (_) => ThemeProvider()),
-        ChangeNotifierProvider(create: (_) => LocaleProvider()),
-        BlocProvider(
-          create: (_) =>
-              CurrencyBloc(sl())..add(CurrencyEvent.fetchRequested()),
-        ),
-      ],
-      child: const CBUApp(),
-    ),
-  );
+  await configureDependencies();
+  runApp(const CBUApp());
 }
 
-class CBUApp extends StatefulWidget {
+class CBUApp extends StatelessWidget {
   const CBUApp({super.key});
 
   @override
-  State<CBUApp> createState() => _CBUAppState();
-}
-
-class _CBUAppState extends State<CBUApp> {
-  @override
   Widget build(BuildContext context) {
-    final themeProvider = Provider.of<ThemeProvider>(context);
-    final localeProvider = Provider.of<LocaleProvider>(context);
-
-    return MaterialApp(
-      themeMode: themeProvider.themeMode,
-      theme: ThemeData.light(),
-      darkTheme: ThemeData.dark(),
-      home: const SplashScreen(),
-      debugShowCheckedModeBanner: false,
-      supportedLocales: L10n.all,
-      locale: localeProvider.locale,
-      localizationsDelegates: const [
-        GlobalMaterialLocalizations.delegate,
-        GlobalWidgetsLocalizations.delegate,
-        GlobalCupertinoLocalizations.delegate,
-        AppLocalizations.delegate
-      ],
+    return BlocProvider(
+      create: (_) => sl<SettingsBloc>()..add(const SettingsEvent.appStarted()),
+      child: BlocBuilder<SettingsBloc, SettingsState>(
+        builder: (context, state) {
+          return MaterialApp.router(
+            routerConfig: router,
+            themeMode: state.themeMode,
+            theme: ThemeData(
+              useMaterial3: true,
+              colorScheme: ColorScheme.fromSeed(
+                seedColor: Colors.yellow.shade700,
+                primary: Colors.yellow.shade700,
+                onPrimary: Colors.white,
+                brightness: Brightness.light,
+              ),
+              appBarTheme: AppBarTheme(
+                backgroundColor: Colors.yellow.shade700,
+                foregroundColor: Colors.white,
+                centerTitle: true,
+              ),
+            ),
+            darkTheme: ThemeData(
+              useMaterial3: true,
+              colorScheme: ColorScheme.fromSeed(
+                seedColor: Colors.yellow.shade700,
+                primary: Colors.yellow.shade700,
+                onPrimary: Colors.black,
+                brightness: Brightness.dark,
+              ),
+              appBarTheme: AppBarTheme(
+                backgroundColor: Colors.yellow.shade700,
+                foregroundColor: Colors.black,
+                centerTitle: true,
+              ),
+            ),
+            debugShowCheckedModeBanner: false,
+            supportedLocales: L10n.all,
+            locale: state.locale,
+            localizationsDelegates: const [
+              GlobalMaterialLocalizations.delegate,
+              GlobalWidgetsLocalizations.delegate,
+              GlobalCupertinoLocalizations.delegate,
+              AppLocalizations.delegate,
+            ],
+          );
+        },
+      ),
     );
   }
 }

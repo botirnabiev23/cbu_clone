@@ -1,106 +1,113 @@
-import 'package:cbu/features/exchange/domain/entities/currency_entity.dart';
+import 'package:cbu/core/error/failures.dart';
+import 'package:cbu/core/extensions/l10n_extension.dart';
 import 'package:cbu/features/exchange/presentation/bloc/currency_bloc.dart';
+import 'package:cbu/features/exchange/presentation/cubit/currency_search_cubit.dart';
+import 'package:cbu/features/exchange/presentation/widgets/currency_widget.dart';
+import 'package:cbu/features/favourites/bloc/favourites_bloc.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class CurrencyPage extends StatefulWidget {
+class CurrencyPage extends StatelessWidget {
   const CurrencyPage({super.key});
 
-  @override
-  State<CurrencyPage> createState() => _CurrencyPageState();
-}
-
-class _CurrencyPageState extends State<CurrencyPage> {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<CurrencyBloc, CurrencyState>(
       builder: (context, state) {
-        return state.when(
-          initial: () => const Center(child: Text('Start')),
-          loading: () => const Center(child: CircularProgressIndicator()),
-          loaded: (currencyList) => RefreshIndicator(
-            onRefresh: () async {
-              context
-                  .read<CurrencyBloc>()
-                  .add(const CurrencyEvent.fetchRequested());
-            },
-            child: ListView.builder(
-              itemCount: currencyList.length,
-              itemBuilder: (context, index) {
-                return CurrencyPageCBWidget(model: currencyList[index]);
+        final appBarColor =
+            Theme.of(context).appBarTheme.foregroundColor ?? Colors.white;
+
+        if (state.isLoading && state.currencyList.isEmpty) {
+          return const Center(child: CupertinoActivityIndicator());
+        }
+
+        return BlocBuilder<CurrencySearchCubit, CurrencySearchState>(
+          builder: (context, searchState) {
+            final currencies = searchState.filteredCurrencies;
+
+            if (currencies.isEmpty) {
+              if (state.isLoading) {
+                return const Center(child: CupertinoActivityIndicator());
+              }
+              if (state.failure != null && state.currencyList.isEmpty) {
+                final String message;
+
+                if (state.failure is ServerFailure) {
+                  message = (state.failure as ServerFailure).message ??
+                      context.l10n.server_error;
+                } else {
+                  message = context.l10n.unknown_error;
+                }
+
+                return Center(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(message),
+                      ElevatedButton(
+                        style: ButtonStyle(
+                          backgroundColor: WidgetStatePropertyAll(appBarColor),
+                        ),
+                        onPressed: () {
+                          context
+                              .read<CurrencyBloc>()
+                              .add(const CurrencyEvent.fetchRequested());
+                        },
+                        child: Text(context.l10n.retry),
+                      ),
+                    ],
+                  ),
+                );
+              }
+
+              return Center(child: Text(context.l10n.no_data));
+            }
+
+            return BlocBuilder<FavouritesBloc, FavouritesState>(
+              builder: (context, favState) {
+                return CustomScrollView(
+                  physics: const BouncingScrollPhysics(
+                    parent: AlwaysScrollableScrollPhysics(),
+                  ),
+                  slivers: [
+                    CupertinoSliverRefreshControl(
+                      onRefresh: () async {
+                        context.read<CurrencyBloc>().add(
+                          const CurrencyEvent.fetchRequested(),
+                        );
+                      },
+                    ),
+                    SliverPadding(
+                      padding: const EdgeInsets.only(top: 5),
+                      sliver: SliverList(
+                        delegate: SliverChildBuilderDelegate(
+                          (context, index) {
+                            if (index.isOdd) {
+                              return const Divider();
+                            }
+                            final itemIndex = index ~/ 2;
+                            final currency = currencies[itemIndex];
+                            final isFav = favState.currencies
+                                .any((e) => e.ccy == currency.ccy);
+                            return CurrencyPageCBWidget(
+                              currency: currency,
+                              isFavourite: isFav,
+                            );
+                          },
+                          childCount: currencies.isEmpty
+                              ? 0
+                              : currencies.length * 2 - 1,
+                        ),
+                      ),
+                    ),
+                  ],
+                );
               },
-            ),
-          ),
-          error: (errorMessage) => Center(child: Text(errorMessage)),
+            );
+          },
         );
       },
-    );
-  }
-}
-
-class CurrencyPageCBWidget extends StatelessWidget {
-  final Currency model;
-
-  const CurrencyPageCBWidget({super.key, required this.model});
-
-  @override
-  Widget build(BuildContext context) {
-    final double different = double.tryParse(model.diff ?? '0') ?? 0;
-    final String diffString = model.diff ?? '0';
-
-    Color getColor() {
-      if (different > 0) {
-        return Colors.green;
-      } else if (different < 0) {
-        return Colors.red;
-      } else {
-        return Colors.grey;
-      }
-    }
-
-    String getPlus() {
-      if (different > 0) {
-        return '+$diffString';
-      } else {
-        return diffString;
-      }
-    }
-
-    Icon getArrow() {
-      if (different > 0) {
-        return const Icon(Icons.arrow_upward);
-      } else if (different < 0) {
-        return const Icon(Icons.arrow_downward);
-      }
-      return const Icon(Icons.remove);
-    }
-
-    return Container(
-      decoration: const BoxDecoration(
-        border: Border(
-          bottom: BorderSide(
-            color: Colors.grey,
-            width: 1.0,
-          ),
-        ),
-      ),
-      child: ListTile(
-        title: Text(
-          '${model.nominal.toString()} ${model.ccy} = ${model.rate}',
-          style: const TextStyle(fontSize: 18),
-        ),
-        subtitle: Text(
-          getPlus(),
-          style: TextStyle(
-            color: getColor(),
-            fontSize: 16,
-          ),
-        ),
-        trailing: Icon(
-          getArrow().icon,
-          color: getColor(),
-        ),
-      ),
     );
   }
 }

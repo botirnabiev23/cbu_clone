@@ -1,10 +1,11 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'currency_entity.freezed.dart';
+part 'currency_entity.g.dart';
 
 @freezed
-abstract class Currency with _$Currency {
-  const factory Currency({
+abstract class CurrencyEntity with _$CurrencyEntity {
+  const factory CurrencyEntity({
     int? id,
     String? code,
     String? ccy,
@@ -16,5 +17,8 @@ abstract class Currency with _$Currency {
     String? rate,
     String? diff,
     String? date,
-  }) = _Currency;
+  }) = _CurrencyEntity;
+
+  factory CurrencyEntity.fromJson(Map<String, dynamic> json) =>
+      _$CurrencyEntityFromJson(json);
 }
